@@ -1,0 +1,15 @@
+{
+  "author": "Naoto Kondo",
+  "description": "Unity DeckLink Plugin",
+  "displayName": "DeckLinkPlugin",
+  "keywords": [
+    "unity",
+    "decklink"
+  ],
+  "license": "MIT License",
+  "name": "jp.buresu.unitydecklinkplugin",
+  "repository": "github:buresu/UnityDeckLinkPlugin",
+  "unity": "2020.1",
+  "unityRelease": "1f0",
+  "version": "0.0.1"
+}
