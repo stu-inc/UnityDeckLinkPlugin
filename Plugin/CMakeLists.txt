@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(DeckLinkPlugin VERSION 0.0.1 LANGUAGES C CXX)
+project(DeckLinkPlugin VERSION 0.0.1 LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -12,9 +12,11 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET "10.14")
 
 find_package(DeckLink REQUIRED)
 
-file(GLOB INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h*)
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*)
 
 add_library(DeckLinkPlugin SHARED ${SOURCES} ${INCLUDES})
+
+target_include_directories(DeckLinkPlugin PRIVATE ${DECKLINK_INCLUDE_DIRS})
 
 target_link_libraries(DeckLinkPlugin PRIVATE ${DECKLINK_LIBS})
