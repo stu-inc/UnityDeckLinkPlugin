@@ -15,6 +15,9 @@ namespace DeckLinkPlugin
             IntPtr devices = new IntPtr();
             Debug.Log(DeckLinkCApi.ListDevices(out devices));
             Debug.Log(devices);
+            IntPtr device = DeckLinkCApi.GetDevice(devices, 0);
+            Debug.Log(device);
+            Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
         }
 
         // Update is called once per frame

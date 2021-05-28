@@ -1,7 +1,10 @@
 #include "DeckLinkCApi.hpp"
 #include <DeckLinkAPI.h>
 #include <DeckLinkAPIVersion.h>
-#include <vector>
+
+// Global variables
+static int _numDevices = 0;
+static void *_devices[32] = {nullptr};
 
 int DeckLink_GetVersion() { return BLACKMAGIC_DECKLINK_API_VERSION; }
 
@@ -11,10 +14,11 @@ const char *DeckLink_GetVersionString() {
 
 int DeckLink_ListDevices(void **devices) {
 
-  static std::vector<void *> d;
+  // Clear devices
+  _numDevices = 0;
+  *_devices = {nullptr};
 
-  d.clear();
-
+  // List devices
   IDeckLinkIterator *deckLinkIterator = nullptr;
 
 #if defined(WIN32)
@@ -30,13 +34,24 @@ int DeckLink_ListDevices(void **devices) {
 
   IDeckLink *deckLink = nullptr;
 
-  while (deckLinkIterator->Next(&deckLink) == S_OK)
-    d.push_back(deckLink);
+  while (deckLinkIterator->Next(&deckLink) == S_OK) {
+    _devices[_numDevices] = deckLink;
+    _numDevices++;
+  }
 
   deckLinkIterator->Release();
 
-  if (!d.empty())
-    *devices = d.data();
+  // Set devices
+  *devices = _numDevices > 0 ? _devices : nullptr;
 
-  return int(d.size());
+  return _numDevices;
+}
+
+void *DeckLink_GetDevice(void **devices, int index) { return devices[index]; }
+
+const char *DeckLink_GetDeviceDisplayName(void *device) {
+  const char *name = "";
+  if (device)
+    ((IDeckLink *)device)->GetDisplayName(&name);
+  return name;
 }

@@ -20,5 +20,17 @@ namespace DeckLinkPlugin
         // List devices
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_ListDevices")]
         internal static extern int ListDevices(out IntPtr devices);
+
+        // Get device
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetDevice")]
+        internal static extern IntPtr GetDevice(IntPtr devices, int index);
+
+        // Get device display name
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetDeviceDisplayName")]
+        private static extern IntPtr _GetDeviceDisplayName(IntPtr device);
+        public static string GetDeviceDisplayName(IntPtr device)
+        {
+            return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
+        }
     }
 }
