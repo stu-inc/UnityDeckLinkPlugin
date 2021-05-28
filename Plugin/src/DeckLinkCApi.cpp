@@ -49,6 +49,13 @@ int DeckLink_ListDevices(void **devices) {
 
 void *DeckLink_GetDevice(void **devices, int index) { return devices[index]; }
 
+const char *DeckLink_GetDeviceModelName(void *device) {
+  const char *name = "";
+  if (device)
+    ((IDeckLink *)device)->GetModelName(&name);
+  return name;
+}
+
 const char *DeckLink_GetDeviceDisplayName(void *device) {
   const char *name = "";
   if (device)

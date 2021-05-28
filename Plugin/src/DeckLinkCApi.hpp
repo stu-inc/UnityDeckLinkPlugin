@@ -16,6 +16,9 @@ int DeckLink_ListDevices(void **devices);
 // Get device
 void *DeckLink_GetDevice(void **devices, int index);
 
+// Get device model name
+const char *DeckLink_GetDeviceModelName(void *device);
+
 // Get device display name
 const char *DeckLink_GetDeviceDisplayName(void *device);
 

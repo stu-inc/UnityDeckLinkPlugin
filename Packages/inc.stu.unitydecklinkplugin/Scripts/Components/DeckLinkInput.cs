@@ -17,6 +17,7 @@ namespace DeckLinkPlugin
             Debug.Log(devices);
             IntPtr device = DeckLinkCApi.GetDevice(devices, 0);
             Debug.Log(device);
+            Debug.Log(DeckLinkCApi.GetDeviceModelName(device));
             Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
         }
 
