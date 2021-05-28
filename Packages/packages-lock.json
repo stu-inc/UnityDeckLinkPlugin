@@ -81,7 +81,7 @@
       }
     },
     "jp.buresu.unitydecklinkplugin": {
-      "version": "file:jp.buresu.unitydecklinkplugin",
+      "version": "file:inc.stu.unitydecklinkplugin",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
