@@ -9,9 +9,9 @@ const char *DeckLink_GetVersionString() {
   return BLACKMAGIC_DECKLINK_API_VERSION_STRING;
 }
 
-int DeckLink_ListDevices(IDeckLink *devices) {
+int DeckLink_ListDevices(void **devices) {
 
-  static std::vector<IDeckLink *> d;
+  static std::vector<void *> d;
 
   d.clear();
 
@@ -36,7 +36,7 @@ int DeckLink_ListDevices(IDeckLink *devices) {
   deckLinkIterator->Release();
 
   if (!d.empty())
-    devices = *d.data();
+    *devices = d.data();
 
   return int(d.size());
 }

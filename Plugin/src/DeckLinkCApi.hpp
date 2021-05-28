@@ -1,7 +1,5 @@
 #pragma once
 
-class IDeckLink;
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,7 +11,7 @@ int DeckLink_GetVersion();
 const char *DeckLink_GetVersionString();
 
 // List devices
-int DeckLink_ListDevices(IDeckLink *devices);
+int DeckLink_ListDevices(void **devices);
 
 #ifdef __cplusplus
 }
