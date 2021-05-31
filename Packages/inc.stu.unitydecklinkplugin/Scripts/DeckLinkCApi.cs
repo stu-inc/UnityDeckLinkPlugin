@@ -54,5 +54,13 @@ namespace DeckLinkPlugin
         // Release device input stream
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_ReleaseDeviceInputStream")]
         internal static extern void ReleaseDeviceInputStream(IntPtr stream);
+
+        // Input stream start
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_InputStreamStart")]
+        internal static extern void InputStreamStart(IntPtr stream);
+
+        // Input stream stop
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_InputStreamStop")]
+        internal static extern void InputStreamStop(IntPtr stream);
     }
 }

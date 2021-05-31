@@ -4,8 +4,14 @@
 
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
-  DeckLinkInputStream();
+  explicit DeckLinkInputStream(IDeckLink *device);
   virtual ~DeckLinkInputStream() override;
+
+  void Start();
+  void Stop();
+
+protected:
+  void Run();
 
   virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
   virtual ULONG AddRef() override;

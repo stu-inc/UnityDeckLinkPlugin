@@ -19,6 +19,11 @@ namespace DeckLinkPlugin
             Debug.Log(device);
             Debug.Log(DeckLinkCApi.GetDeviceModelName(device));
             Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
+            IntPtr stream = DeckLinkCApi.CreateDeviceInputStream(device);
+            Debug.Log(stream);
+            DeckLinkCApi.InputStreamStart(stream);
+            DeckLinkCApi.InputStreamStop(stream);
+            DeckLinkCApi.ReleaseDeviceInputStream(stream);
         }
 
         // Update is called once per frame

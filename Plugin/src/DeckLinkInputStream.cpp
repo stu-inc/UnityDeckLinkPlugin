@@ -1,16 +1,38 @@
 #include "DeckLinkInputStream.hpp"
+#include <thread>
 
-DeckLinkInputStream::DeckLinkInputStream() : IDeckLinkInputCallback() {}
+DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
+    : IDeckLinkInputCallback() {
 
-DeckLinkInputStream::~DeckLinkInputStream() {}
-
-HRESULT DeckLinkInputStream::QueryInterface(REFIID iid, LPVOID *ppv) {
-  return 0;
+  // Get input
+  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
+    _input = nullptr;
 }
 
-ULONG DeckLinkInputStream::AddRef() { return 0; }
+DeckLinkInputStream::~DeckLinkInputStream() {
 
-ULONG DeckLinkInputStream::Release() { return 0; }
+  // Release input
+  if (_input)
+    _input->Release();
+}
+
+void DeckLinkInputStream::Start() {
+
+  std::thread th(&DeckLinkInputStream::Run, this);
+  th.join();
+}
+
+void DeckLinkInputStream::Stop() {}
+
+void DeckLinkInputStream::Run() {}
+
+HRESULT DeckLinkInputStream::QueryInterface(REFIID iid, LPVOID *ppv) {
+  return E_NOINTERFACE;
+}
+
+ULONG DeckLinkInputStream::AddRef() { return S_OK; }
+
+ULONG DeckLinkInputStream::Release() { return S_OK; }
 
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(
