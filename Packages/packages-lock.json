@@ -89,7 +89,7 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "jp.buresu.unitydecklinkplugin": {
+    "inc.stu.unitydecklinkplugin": {
       "version": "file:inc.stu.unitydecklinkplugin",
       "depth": 0,
       "source": "embedded",
