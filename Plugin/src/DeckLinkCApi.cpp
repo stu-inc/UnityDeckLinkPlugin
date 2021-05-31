@@ -1,4 +1,5 @@
 #include "DeckLinkCApi.hpp"
+#include "DeckLinkInputStream.hpp"
 #include <DeckLinkAPI.h>
 #include <DeckLinkAPIVersion.h>
 
@@ -80,3 +81,14 @@ const char *DeckLink_GetDeviceDisplayName(void *device) {
   return name;
 }
 #endif
+
+void *DeckLink_CreateDeviceInputStream(void *device) {
+  auto stream = new DeckLinkInputStream();
+  stream->AddRef();
+  return stream;
+}
+
+void DeckLink_ReleaseDeviceInputStream(void *stream) {
+  ((DeckLinkInputStream *)stream)->Release();
+  delete (DeckLinkInputStream *)stream;
+}

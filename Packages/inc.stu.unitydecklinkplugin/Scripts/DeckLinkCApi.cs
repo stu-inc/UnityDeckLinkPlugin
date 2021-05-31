@@ -46,5 +46,13 @@ namespace DeckLinkPlugin
             else
                 return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
         }
+
+        // Create device input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_CreateDeviceInputStream")]
+        internal static extern IntPtr CreateDeviceInputStream(IntPtr device);
+
+        // Release device input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_ReleaseDeviceInputStream")]
+        internal static extern void ReleaseDeviceInputStream(IntPtr stream);
     }
 }

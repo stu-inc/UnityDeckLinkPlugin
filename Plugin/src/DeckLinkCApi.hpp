@@ -34,6 +34,12 @@ BSTR DeckLink_GetDeviceDisplayName(void *device);
 const char *DeckLink_GetDeviceDisplayName(void *device);
 #endif
 
+// Cream device input stream
+void *DeckLink_CreateDeviceInputStream(void *device);
+
+// Release device input stream
+void DeckLink_ReleaseDeviceInputStream(void *stream);
+
 #ifdef __cplusplus
 }
 #endif
