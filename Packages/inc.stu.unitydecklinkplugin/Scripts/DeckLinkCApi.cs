@@ -30,7 +30,10 @@ namespace DeckLinkPlugin
         private static extern IntPtr _GetDeviceModelName(IntPtr device);
         public static string GetDeviceModelName(IntPtr device)
         {
-            return Marshal.PtrToStringAnsi(_GetDeviceModelName(device));
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return Marshal.PtrToStringBSTR(_GetDeviceModelName(device));
+            else
+                return Marshal.PtrToStringAnsi(_GetDeviceModelName(device));
         }
 
         // Get device display name
@@ -38,7 +41,10 @@ namespace DeckLinkPlugin
         private static extern IntPtr _GetDeviceDisplayName(IntPtr device);
         public static string GetDeviceDisplayName(IntPtr device)
         {
-            return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return Marshal.PtrToStringBSTR(_GetDeviceDisplayName(device));
+            else
+                return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
         }
     }
 }

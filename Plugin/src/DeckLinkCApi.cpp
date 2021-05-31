@@ -50,10 +50,10 @@ int DeckLink_ListDevices(void **devices) {
 void *DeckLink_GetDevice(void **devices, int index) { return devices[index]; }
 
 #if defined(WIN32)
-BSTR *DeckLink_GetDeviceModelName(void *device) {
-  BSTR *name = nullptr;
+BSTR DeckLink_GetDeviceModelName(void *device) {
+  BSTR name = nullptr;
   if (device)
-    ((IDeckLink *)device)->GetModelName(name);
+    ((IDeckLink *)device)->GetModelName(&name);
   return name;
 }
 #else
@@ -66,10 +66,10 @@ const char *DeckLink_GetDeviceModelName(void *device) {
 #endif
 
 #if defined(WIN32)
-BSTR *DeckLink_GetDeviceDisplayName(void *device) {
-  BSTR *name = nullptr;
+BSTR DeckLink_GetDeviceDisplayName(void *device) {
+  BSTR name = nullptr;
   if (device)
-    ((IDeckLink *)device)->GetDisplayName(name);
+    ((IDeckLink *)device)->GetDisplayName(&name);
   return name;
 }
 #else
