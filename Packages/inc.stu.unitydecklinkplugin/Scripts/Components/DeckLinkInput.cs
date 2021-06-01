@@ -32,7 +32,11 @@ namespace DeckLinkPlugin
 
         void Update()
         {
-            Debug.Log(DeckLinkCApi.GetInputStreamVideoFrame(_inputStream));
+            DeckLinkCApi.LockInputStream(_inputStream);
+            var videoFrame = DeckLinkCApi.GetInputStreamVideoFrame(_inputStream);
+            Debug.Log(DeckLinkCApi.GetVideoFrameWidth(videoFrame));
+            Debug.Log(DeckLinkCApi.GetVideoFrameHeight(videoFrame));
+            DeckLinkCApi.UnlockInputStream(_inputStream);
         }
     }
 }

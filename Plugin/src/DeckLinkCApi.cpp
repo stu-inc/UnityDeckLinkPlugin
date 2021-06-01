@@ -98,6 +98,14 @@ void *DeckLink_CreateInputStream(void *device) {
   return stream;
 }
 
+void DeckLink_LockInputStream(void *stream) {
+  ((DeckLinkInputStream *)stream)->Lock();
+}
+
+void DeckLink_UnlockInputStream(void *stream) {
+  ((DeckLinkInputStream *)stream)->Unlock();
+}
+
 void DeckLink_StartInputStream(void *stream) {
   ((DeckLinkInputStream *)stream)->Start();
 }
@@ -108,4 +116,22 @@ void DeckLink_StopInputStream(void *stream) {
 
 void *DeckLink_GetInputStreamVideoFrame(void *stream) {
   return (void *)((DeckLinkInputStream *)stream)->VideoFrame();
+}
+
+int DeckLink_GetVideoFrameWidth(void *frame) {
+  return ((IDeckLinkVideoFrame*)frame)->GetWidth();
+}
+
+int DeckLink_GetVideoFrameHeight(void *frame) {
+  return ((IDeckLinkVideoFrame*)frame)->GetHeight();
+}
+
+int DeckLink_GetVideoFrameRowBytes(void *frame) {
+  return ((IDeckLinkVideoFrame*)frame)->GetRowBytes();
+}
+
+void *DeckLink_GetVideoFrameBytes(void *frame) {
+  void *bytes = nullptr;
+  ((IDeckLinkVideoFrame*)frame)->GetBytes(&bytes);
+  return bytes;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DeckLinkAPI.h>
+#include <mutex>
 
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
@@ -9,6 +10,9 @@ public:
   virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
   virtual ULONG AddRef() override;
   virtual ULONG Release() override;
+
+  void Lock();
+  void Unlock();
 
   void Start();
   void Stop();
@@ -29,6 +33,7 @@ protected:
 
 private:
   int _counter = 0;
+  std::mutex _mutex;
   IDeckLinkInput *_input = nullptr;
   IDeckLinkVideoFrame *_videoFrame = nullptr;
 };

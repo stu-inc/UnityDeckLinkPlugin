@@ -43,14 +43,32 @@ const char *DeckLink_GetDeviceDisplayName(void *device);
 // Create input stream
 void *DeckLink_CreateInputStream(void *device);
 
+// Lock input stream
+void DeckLink_LockInputStream(void *stream);
+
+// Unlock input stream
+void DeckLink_UnlockInputStream(void *stream);
+
 // Start input stream
 void DeckLink_StartInputStream(void *stream);
 
 // Stop input stream
 void DeckLink_StopInputStream(void *stream);
 
-// Get Video Frame
+// Get input stream video frame
 void *DeckLink_GetInputStreamVideoFrame(void *stream);
+
+// Get video frame width
+int DeckLink_GetVideoFrameWidth(void *frame);
+
+// Get video frame height
+int DeckLink_GetVideoFrameHeight(void *frame);
+
+// Get video frame row bytes
+int DeckLink_GetVideoFrameRowBytes(void *frame);
+
+// Get video frame bytes
+void *DeckLink_GetVideoFrameBytes(void *frame);
 
 #ifdef __cplusplus
 }

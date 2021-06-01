@@ -32,6 +32,14 @@ ULONG DeckLinkInputStream::Release() {
   return _counter;
 }
 
+void DeckLinkInputStream::Lock() {
+  _mutex.lock();
+}
+
+void DeckLinkInputStream::Unlock() {
+  _mutex.unlock();
+}
+
 void DeckLinkInputStream::Start() {
 
   if (!_input)
@@ -73,7 +81,9 @@ HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
 
+  Lock();
   _videoFrame = videoFrame;
+  Unlock();
 
   return S_OK;
 }
