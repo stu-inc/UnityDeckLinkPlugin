@@ -9,30 +9,30 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     _input = nullptr;
 }
 
-DeckLinkInputStream::~DeckLinkInputStream() {
-
-  // Release input
-  if (_input)
-    _input->Release();
-}
-
-void DeckLinkInputStream::Start() {
-
-  std::thread th(&DeckLinkInputStream::Run, this);
-  th.join();
-}
-
-void DeckLinkInputStream::Stop() {}
-
-void DeckLinkInputStream::Run() {}
-
 HRESULT DeckLinkInputStream::QueryInterface(REFIID iid, LPVOID *ppv) {
   return E_NOINTERFACE;
 }
 
-ULONG DeckLinkInputStream::AddRef() { return S_OK; }
+ULONG DeckLinkInputStream::AddRef() { return ++_counter; }
 
-ULONG DeckLinkInputStream::Release() { return S_OK; }
+ULONG DeckLinkInputStream::Release() {
+
+  if (--_counter == 0) {
+
+    // Release input
+    if (_input)
+      _input->Release();
+
+    // Delete
+    delete this;
+  }
+  
+  return _counter;
+}
+
+void DeckLinkInputStream::Start() {}
+
+void DeckLinkInputStream::Stop() {}
 
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(
@@ -40,12 +40,12 @@ DeckLinkInputStream::VideoInputFormatChanged(
     /* in */ IDeckLinkDisplayMode *newDisplayMode,
     /* in */ BMDDetectedVideoInputFormatFlags detectedSignalFlags) {
 
-  return 0;
+  return S_OK;
 }
 
 HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
 
-  return 0;
+  return S_OK;
 }

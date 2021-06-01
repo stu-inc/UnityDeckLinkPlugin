@@ -5,17 +5,16 @@
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
   explicit DeckLinkInputStream(IDeckLink *device);
-  virtual ~DeckLinkInputStream();
+
+  virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
+  virtual ULONG AddRef() override;
+  virtual ULONG Release() override;
 
   void Start();
   void Stop();
 
 protected:
-  void Run();
-
-  virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
-  virtual ULONG AddRef() override;
-  virtual ULONG Release() override;
+  virtual ~DeckLinkInputStream() {}
 
   virtual HRESULT VideoInputFormatChanged(
       /* in */ BMDVideoInputFormatChangedEvents notificationEvents,
@@ -27,5 +26,6 @@ protected:
       /* in */ IDeckLinkAudioInputPacket *audioPacket) override;
 
 private:
+  int _counter = 0;
   IDeckLinkInput *_input = nullptr;
 };

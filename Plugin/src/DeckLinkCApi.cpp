@@ -83,11 +83,13 @@ const char *DeckLink_GetDeviceDisplayName(void *device) {
 #endif
 
 void *DeckLink_CreateDeviceInputStream(void *device) {
-  return new DeckLinkInputStream((IDeckLink *)device);
+  auto stream = new DeckLinkInputStream((IDeckLink *)device);
+  stream->AddRef();
+  return stream;
 }
 
 void DeckLink_ReleaseDeviceInputStream(void *stream) {
-  delete (DeckLinkInputStream *)stream;
+  ((DeckLinkInputStream *)stream)->Release();
 }
 
 void DeckLink_InputStreamStart(void *stream) {
