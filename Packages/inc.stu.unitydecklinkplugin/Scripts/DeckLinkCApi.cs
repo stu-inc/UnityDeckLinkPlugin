@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 
+using UnityEngine;
+
 namespace DeckLinkPlugin
 {
     public class DeckLinkCApi
@@ -56,17 +58,17 @@ namespace DeckLinkPlugin
                 return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
         }
 
-        // Create device input stream
-        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_CreateDeviceInputStream")]
-        internal static extern IntPtr CreateDeviceInputStream(IntPtr device);
+        // Create input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_CreateInputStream")]
+        internal static extern IntPtr CreateInputStream(IntPtr device);
 
-        // Input stream start
-        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_InputStreamStart")]
-        internal static extern void InputStreamStart(IntPtr stream);
+        // Start input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StartInputStream")]
+        internal static extern void StartInputStream(IntPtr stream);
 
-        // Input stream stop
-        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_InputStreamStop")]
-        internal static extern void InputStreamStop(IntPtr stream);
+        // Stop input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StopInputStream")]
+        internal static extern void StopInputStream(IntPtr stream);
 
         // Get input stream video frame
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamVideoFrame")]

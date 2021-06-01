@@ -19,14 +19,14 @@ namespace DeckLinkPlugin
             Debug.Log(device);
             Debug.Log(DeckLinkCApi.GetDeviceModelName(device));
             Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
-            _inputStream = DeckLinkCApi.CreateDeviceInputStream(device);
+            _inputStream = DeckLinkCApi.CreateInputStream(device);
             Debug.Log(_inputStream);
-            DeckLinkCApi.InputStreamStart(_inputStream);
+            DeckLinkCApi.StartInputStream(_inputStream);
         }
 
         void OnDisable()
         {
-            DeckLinkCApi.InputStreamStop(_inputStream);
+            DeckLinkCApi.StopInputStream(_inputStream);
             DeckLinkCApi.Release(_inputStream);
         }
 
