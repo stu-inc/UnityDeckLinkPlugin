@@ -7,10 +7,10 @@ namespace DeckLinkPlugin
 {
     public class DeckLinkInput : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        IntPtr _inputStream;
+
+        void OnEnable()
         {
-            Debug.Log("hoge!");
             Debug.Log(DeckLinkCApi.GetVersionString());
             IntPtr devices = new IntPtr();
             Debug.Log(DeckLinkCApi.ListDevices(out devices));
@@ -19,11 +19,15 @@ namespace DeckLinkPlugin
             Debug.Log(device);
             Debug.Log(DeckLinkCApi.GetDeviceModelName(device));
             Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
-            IntPtr stream = DeckLinkCApi.CreateDeviceInputStream(device);
-            Debug.Log(stream);
-            DeckLinkCApi.InputStreamStart(stream);
-            DeckLinkCApi.InputStreamStop(stream);
-            DeckLinkCApi.ReleaseDeviceInputStream(stream);
+            _inputStream = DeckLinkCApi.CreateDeviceInputStream(device);
+            Debug.Log(_inputStream);
+            DeckLinkCApi.InputStreamStart(_inputStream);
+        }
+
+        void OnDisable()
+        {
+            DeckLinkCApi.InputStreamStop(_inputStream);
+            DeckLinkCApi.ReleaseDeviceInputStream(_inputStream);
         }
 
         // Update is called once per frame

@@ -5,7 +5,9 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     : IDeckLinkInputCallback() {
 
   // Get input
-  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
+  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) == S_OK)
+    _input->SetCallback(this);
+  else
     _input = nullptr;
 }
 
@@ -30,9 +32,29 @@ ULONG DeckLinkInputStream::Release() {
   return _counter;
 }
 
-void DeckLinkInputStream::Start() {}
+void DeckLinkInputStream::Start() {
 
-void DeckLinkInputStream::Stop() {}
+  if (!_input)
+    return;
+  
+  // Enable video input
+  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV, bmdVideoInputEnableFormatDetection);
+
+  // Start stream
+  _input->StartStreams();
+}
+
+void DeckLinkInputStream::Stop() {
+
+  if (!_input)
+    return;
+
+  // Disable video input
+  _input->DisableVideoInput();
+
+  // Stop stream
+  _input->StopStreams();
+}
 
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(
