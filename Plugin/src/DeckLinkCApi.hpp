@@ -14,6 +14,12 @@ int DeckLink_GetVersion();
 // Get version string
 const char *DeckLink_GetVersionString();
 
+// AddRef
+void DeckLink_AddRef(void *obj);
+
+// Release
+void DeckLink_Release(void *obj);
+
 // List devices
 int DeckLink_ListDevices(void **devices);
 
@@ -36,9 +42,6 @@ const char *DeckLink_GetDeviceDisplayName(void *device);
 
 // Create device input stream
 void *DeckLink_CreateDeviceInputStream(void *device);
-
-// Release device input stream
-void DeckLink_ReleaseDeviceInputStream(void *stream);
 
 // Input stream start
 void DeckLink_InputStreamStart(void *stream);

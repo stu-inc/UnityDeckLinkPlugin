@@ -13,6 +13,16 @@ const char *DeckLink_GetVersionString() {
   return BLACKMAGIC_DECKLINK_API_VERSION_STRING;
 }
 
+void DeckLink_AddRef(void *obj)
+{
+  ((IUnknown*)obj)->AddRef();
+}
+
+void DeckLink_Release(void *obj)
+{
+  ((IUnknown*)obj)->Release();
+}
+
 int DeckLink_ListDevices(void **devices) {
 
   // Clear devices
@@ -86,10 +96,6 @@ void *DeckLink_CreateDeviceInputStream(void *device) {
   auto stream = new DeckLinkInputStream((IDeckLink *)device);
   stream->AddRef();
   return stream;
-}
-
-void DeckLink_ReleaseDeviceInputStream(void *stream) {
-  ((DeckLinkInputStream *)stream)->Release();
 }
 
 void DeckLink_InputStreamStart(void *stream) {

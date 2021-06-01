@@ -27,7 +27,7 @@ namespace DeckLinkPlugin
         void OnDisable()
         {
             DeckLinkCApi.InputStreamStop(_inputStream);
-            DeckLinkCApi.ReleaseDeviceInputStream(_inputStream);
+            DeckLinkCApi.Release(_inputStream);
         }
 
         void Update()
