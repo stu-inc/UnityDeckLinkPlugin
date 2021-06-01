@@ -99,3 +99,7 @@ void DeckLink_InputStreamStart(void *stream) {
 void DeckLink_InputStreamStop(void *stream) {
   ((DeckLinkInputStream *)stream)->Stop();
 }
+
+void *DeckLink_GetInputStreamVideoFrame(void *stream) {
+  return (void *)((DeckLinkInputStream *)stream)->VideoFrame();
+}

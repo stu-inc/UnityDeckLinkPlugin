@@ -46,6 +46,9 @@ void DeckLink_InputStreamStart(void *stream);
 // Input stream stop
 void DeckLink_InputStreamStop(void *stream);
 
+// Get Video Frame
+void *DeckLink_GetInputStreamVideoFrame(void *stream);
+
 #ifdef __cplusplus
 }
 #endif

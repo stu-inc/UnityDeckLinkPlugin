@@ -13,6 +13,8 @@ public:
   void Start();
   void Stop();
 
+  IDeckLinkVideoFrame *VideoFrame();
+
 protected:
   virtual ~DeckLinkInputStream() {}
 
@@ -28,4 +30,5 @@ protected:
 private:
   int _counter = 0;
   IDeckLinkInput *_input = nullptr;
+  IDeckLinkVideoFrame *_videoFrame = nullptr;
 };

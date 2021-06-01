@@ -56,6 +56,10 @@ void DeckLinkInputStream::Stop() {
   _input->StopStreams();
 }
 
+IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() {
+  return _videoFrame;
+}
+
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(
     /* in */ BMDVideoInputFormatChangedEvents notificationEvents,
@@ -68,6 +72,8 @@ DeckLinkInputStream::VideoInputFormatChanged(
 HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
+
+  _videoFrame = videoFrame;
 
   return S_OK;
 }
