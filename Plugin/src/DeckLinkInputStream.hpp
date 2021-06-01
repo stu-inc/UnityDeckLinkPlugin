@@ -5,7 +5,7 @@
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
   explicit DeckLinkInputStream(IDeckLink *device);
-  virtual ~DeckLinkInputStream() override;
+  virtual ~DeckLinkInputStream();
 
   void Start();
   void Stop();
