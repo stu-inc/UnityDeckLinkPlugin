@@ -27,8 +27,10 @@ ULONG DeckLinkInputStream::Release() {
 
     // Delete
     delete this;
+
+    return 0;
   }
-  
+
   return _counter;
 }
 

@@ -27,7 +27,7 @@ protected:
   virtual HRESULT ScheduledPlaybackHasStopped(void) override;
 
 private:
-  int _counter = 0;
+  ULONG _counter = 0;
   std::mutex _mutex;
   IDeckLinkOutput *_output = nullptr;
   IDeckLinkMutableVideoFrame *_videoFrame = nullptr;

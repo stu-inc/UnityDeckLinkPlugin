@@ -32,7 +32,7 @@ protected:
       /* in */ IDeckLinkAudioInputPacket *audioPacket) override;
 
 private:
-  int _counter = 0;
+  ULONG _counter = 0;
   std::mutex _mutex;
   IDeckLinkInput *_input = nullptr;
   IDeckLinkVideoFrame *_videoFrame = nullptr;
