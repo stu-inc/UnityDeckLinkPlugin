@@ -1,5 +1,6 @@
 #include "DeckLinkCApi.hpp"
 #include "DeckLinkInputStream.hpp"
+#include "DeckLinkOutputStream.hpp"
 #include <DeckLinkAPI.h>
 #include <DeckLinkAPIVersion.h>
 
@@ -13,15 +14,9 @@ const char *DeckLink_GetVersionString() {
   return BLACKMAGIC_DECKLINK_API_VERSION_STRING;
 }
 
-void DeckLink_AddRef(void *obj)
-{
-  ((IUnknown*)obj)->AddRef();
-}
+void DeckLink_AddRef(void *obj) { ((IUnknown *)obj)->AddRef(); }
 
-void DeckLink_Release(void *obj)
-{
-  ((IUnknown*)obj)->Release();
-}
+void DeckLink_Release(void *obj) { ((IUnknown *)obj)->Release(); }
 
 int DeckLink_ListDevices(void **devices) {
 
@@ -119,19 +114,41 @@ void *DeckLink_GetInputStreamVideoFrame(void *stream) {
 }
 
 int DeckLink_GetVideoFrameWidth(void *frame) {
-  return ((IDeckLinkVideoFrame*)frame)->GetWidth();
+  return ((IDeckLinkVideoFrame *)frame)->GetWidth();
 }
 
 int DeckLink_GetVideoFrameHeight(void *frame) {
-  return ((IDeckLinkVideoFrame*)frame)->GetHeight();
+  return ((IDeckLinkVideoFrame *)frame)->GetHeight();
 }
 
 int DeckLink_GetVideoFrameRowBytes(void *frame) {
-  return ((IDeckLinkVideoFrame*)frame)->GetRowBytes();
+  return ((IDeckLinkVideoFrame *)frame)->GetRowBytes();
 }
 
 void *DeckLink_GetVideoFrameBytes(void *frame) {
   void *bytes = nullptr;
-  ((IDeckLinkVideoFrame*)frame)->GetBytes(&bytes);
+  ((IDeckLinkVideoFrame *)frame)->GetBytes(&bytes);
   return bytes;
+}
+
+void *DeckLink_CreateOutputStream(void *device) {
+  auto stream = new DeckLinkOutputStream((IDeckLink *)device);
+  stream->AddRef();
+  return stream;
+}
+
+void DeckLink_LockOutputStream(void *stream) {
+  ((DeckLinkOutputStream *)stream)->Lock();
+}
+
+void DeckLink_UnlockOuputStream(void *stream) {
+  ((DeckLinkOutputStream *)stream)->Unlock();
+}
+
+void DeckLink_StartOutputStream(void *stream) {
+  ((DeckLinkOutputStream *)stream)->Start();
+}
+
+void DeckLink_StopOuputStream(void *stream) {
+  ((DeckLinkOutputStream *)stream)->Stop();
 }

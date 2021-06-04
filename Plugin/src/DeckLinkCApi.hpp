@@ -70,6 +70,21 @@ int DeckLink_GetVideoFrameRowBytes(void *frame);
 // Get video frame bytes
 void *DeckLink_GetVideoFrameBytes(void *frame);
 
+// Create output stream
+void *DeckLink_CreateOutputStream(void *device);
+
+// Lock output stream
+void DeckLink_LockOutputStream(void *stream);
+
+// Unlock output stream
+void DeckLink_UnlockOutputStream(void *stream);
+
+// Start output stream
+void DeckLink_StartOutputStream(void *stream);
+
+// Stop output stream
+void DeckLink_StopOutputStream(void *stream);
+
 #ifdef __cplusplus
 }
 #endif
