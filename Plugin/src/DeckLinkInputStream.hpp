@@ -35,6 +35,7 @@ protected:
 private:
   std::atomic<ULONG> _counter = 0;
   std::mutex _mutex;
+  IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
   IDeckLinkVideoFrame *_videoFrame = nullptr;
 };

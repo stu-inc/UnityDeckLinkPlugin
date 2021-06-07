@@ -2,7 +2,10 @@
 #include <thread>
 
 DeckLinkOutputStream::DeckLinkOutputStream(IDeckLink *device)
-    : IDeckLinkVideoOutputCallback() {
+    : IDeckLinkVideoOutputCallback(), _device(device) {
+
+  // Add ref
+  _device->AddRef();
 
   // Get output
   if (device->QueryInterface(IID_IDeckLinkOutput, (LPVOID *)&_output) != S_OK)
@@ -14,6 +17,9 @@ DeckLinkOutputStream::~DeckLinkOutputStream() {
   // Release output
   if (_output)
     _output->Release();
+
+  // Release device
+  _device->Release();
 }
 
 HRESULT DeckLinkOutputStream::QueryInterface(REFIID iid, LPVOID *ppv) {

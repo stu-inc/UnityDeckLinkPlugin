@@ -2,10 +2,13 @@
 #include <thread>
 
 DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
-    : IDeckLinkInputCallback() {
+    : IDeckLinkInputCallback(), _device(device) {
+
+  // Add ref
+  _device->AddRef();
 
   // Get input
-  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
+  if (_device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
     _input = nullptr;
 }
 
@@ -14,6 +17,9 @@ DeckLinkInputStream::~DeckLinkInputStream() {
   // Release input
   if (_input)
     _input->Release();
+
+  // Release device
+  _device->Release();
 }
 
 HRESULT DeckLinkInputStream::QueryInterface(REFIID iid, LPVOID *ppv) {

@@ -30,6 +30,7 @@ protected:
 private:
   std::atomic<ULONG> _counter = 0;
   std::mutex _mutex;
+  IDeckLink *_device = nullptr;
   IDeckLinkOutput *_output = nullptr;
   IDeckLinkMutableVideoFrame *_videoFrame = nullptr;
 };
