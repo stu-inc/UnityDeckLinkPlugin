@@ -11,6 +11,13 @@ DeckLinkOutputStream::DeckLinkOutputStream(IDeckLink *device)
     _output = nullptr;
 }
 
+DeckLinkOutputStream::~DeckLinkOutputStream() {
+
+  // Release output
+  if (_output)
+    _output->Release();
+}
+
 HRESULT DeckLinkOutputStream::QueryInterface(REFIID iid, LPVOID *ppv) {
   return E_NOINTERFACE;
 }
@@ -20,14 +27,7 @@ ULONG DeckLinkOutputStream::AddRef() { return ++_counter; }
 ULONG DeckLinkOutputStream::Release() {
 
   if (--_counter == 0) {
-
-    // Release output
-    if (_output)
-      _output->Release();
-
-    // Delete
     delete this;
-
     return 0;
   }
 

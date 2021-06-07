@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DeckLinkAPI.h>
+#include <atomic>
 #include <mutex>
 
 class DeckLinkInputStream : public IDeckLinkInputCallback {
@@ -20,7 +21,7 @@ public:
   IDeckLinkVideoFrame *VideoFrame();
 
 protected:
-  virtual ~DeckLinkInputStream() {}
+  virtual ~DeckLinkInputStream();
 
   virtual HRESULT VideoInputFormatChanged(
       /* in */ BMDVideoInputFormatChangedEvents notificationEvents,
@@ -32,7 +33,7 @@ protected:
       /* in */ IDeckLinkAudioInputPacket *audioPacket) override;
 
 private:
-  ULONG _counter = 0;
+  std::atomic<ULONG> _counter = 0;
   std::mutex _mutex;
   IDeckLinkInput *_input = nullptr;
   IDeckLinkVideoFrame *_videoFrame = nullptr;

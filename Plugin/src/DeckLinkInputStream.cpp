@@ -11,6 +11,13 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     _input = nullptr;
 }
 
+DeckLinkInputStream::~DeckLinkInputStream() {
+
+  // Release input
+  if (_input)
+    _input->Release();
+}
+
 HRESULT DeckLinkInputStream::QueryInterface(REFIID iid, LPVOID *ppv) {
   return E_NOINTERFACE;
 }
@@ -20,35 +27,25 @@ ULONG DeckLinkInputStream::AddRef() { return ++_counter; }
 ULONG DeckLinkInputStream::Release() {
 
   if (--_counter == 0) {
-
-    // Release input
-    if (_input)
-      _input->Release();
-
-    // Delete
     delete this;
-
     return 0;
   }
 
   return _counter;
 }
 
-void DeckLinkInputStream::Lock() {
-  _mutex.lock();
-}
+void DeckLinkInputStream::Lock() { _mutex.lock(); }
 
-void DeckLinkInputStream::Unlock() {
-  _mutex.unlock();
-}
+void DeckLinkInputStream::Unlock() { _mutex.unlock(); }
 
 void DeckLinkInputStream::Start() {
 
   if (!_input)
     return;
-  
+
   // Enable video input
-  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV, bmdVideoInputEnableFormatDetection);
+  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV,
+                           bmdVideoInputEnableFormatDetection);
 
   // Start stream
   _input->StartStreams();
@@ -66,9 +63,7 @@ void DeckLinkInputStream::Stop() {
   _input->StopStreams();
 }
 
-IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() {
-  return _videoFrame;
-}
+IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() { return _videoFrame; }
 
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(

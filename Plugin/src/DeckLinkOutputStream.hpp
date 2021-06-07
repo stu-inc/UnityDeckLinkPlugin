@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DeckLinkAPI.h>
+#include <atomic>
 #include <mutex>
 
 class DeckLinkOutputStream : public IDeckLinkVideoOutputCallback {
@@ -18,7 +19,7 @@ public:
   void Stop();
 
 protected:
-  virtual ~DeckLinkOutputStream() {}
+  virtual ~DeckLinkOutputStream();
 
   virtual HRESULT ScheduledFrameCompleted(
       /* in */ IDeckLinkVideoFrame *completedFrame,
@@ -27,7 +28,7 @@ protected:
   virtual HRESULT ScheduledPlaybackHasStopped(void) override;
 
 private:
-  ULONG _counter = 0;
+  std::atomic<ULONG> _counter = 0;
   std::mutex _mutex;
   IDeckLinkOutput *_output = nullptr;
   IDeckLinkMutableVideoFrame *_videoFrame = nullptr;
