@@ -38,4 +38,5 @@ private:
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
   IDeckLinkVideoFrame *_videoFrame = nullptr;
+  IDeckLinkVideoConversion *_videoConverter = nullptr;
 };

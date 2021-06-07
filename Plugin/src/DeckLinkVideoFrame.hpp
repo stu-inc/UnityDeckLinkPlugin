@@ -30,7 +30,7 @@ protected:
   ~DeckLinkVideoFrame();
 
 private:
-  std::atomic<ULONG> _counter = 0;
+  std::atomic<ULONG> _counter = 1;
   std::mutex _mutex;
 
   long _width = 0;

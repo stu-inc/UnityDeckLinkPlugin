@@ -1,5 +1,5 @@
 #include "DeckLinkInputStream.hpp"
-#include <thread>
+#include "DeckLinkVideoFrame.hpp"
 
 DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     : IDeckLinkInputCallback(), _device(device) {
@@ -10,9 +10,24 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
   // Get input
   if (_device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
     _input = nullptr;
+
+    // Create video converter
+#if defined(WIN32)
+  CoCreateInstance(CLSID_CDeckLinkVideoConversion, NULL, CLSCTX_ALL,
+                   IID_IDeckLinkVideoConversion, (LPVOID *)&_videoConverter);
+#else
+  _videoConverter = CreateVideoConversionInstance();
+#endif
+
+  _videoFrame = new DeckLinkVideoFrame(1920, 1080, bmdFormat8BitARGB);
 }
 
 DeckLinkInputStream::~DeckLinkInputStream() {
+
+  _videoFrame->Release();
+
+  // Release video converter
+  _videoConverter->Release();
 
   // Release input
   if (_input)
@@ -81,6 +96,14 @@ DeckLinkInputStream::VideoInputFormatChanged(
     /* in */ IDeckLinkDisplayMode *newDisplayMode,
     /* in */ BMDDetectedVideoInputFormatFlags detectedSignalFlags) {
 
+  if (notificationEvents & bmdVideoInputColorspaceChanged ||
+      notificationEvents & bmdVideoInputDisplayModeChanged) {
+    _input->FlushStreams();
+    _input->StopStreams();
+    _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV,
+                             bmdVideoInputEnableFormatDetection);
+  }
+
   return S_OK;
 }
 
@@ -88,9 +111,5 @@ HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
 
-  Lock();
-  _videoFrame = videoFrame;
-  Unlock();
-
-  return S_OK;
+  return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
 }

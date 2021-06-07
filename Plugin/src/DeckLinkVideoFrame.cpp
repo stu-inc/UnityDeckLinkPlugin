@@ -3,9 +3,9 @@
 static long pixelFormatToBytes(BMDPixelFormat format) {
 
   if (format == bmdFormat8BitARGB) {
-    return 32;
+    return 4;
   } else if (format == bmdFormat8BitBGRA) {
-    return 32;
+    return 4;
   }
 
   return 0;
@@ -29,7 +29,7 @@ ULONG DeckLinkVideoFrame::AddRef() { return ++_counter; }
 
 ULONG DeckLinkVideoFrame::Release() {
 
-  if (--_counter == 0) {
+  if (!--_counter) {
     delete this;
     return 0;
   }
@@ -49,13 +49,14 @@ void DeckLinkVideoFrame::Resize(long width, long height,
   // Allocate memory
   auto size = _height * _rowBytes;
 
-  _data.clear();
   _data.reserve(size);
   _data.resize(size);
+
+  std::fill(_data.begin(), _data.end(), 255);
 }
 
 HRESULT DeckLinkVideoFrame::GetBytes(void **buffer) {
-  *buffer = _data.data();
+  *buffer = (void *)_data.data();
   return S_OK;
 }
 
