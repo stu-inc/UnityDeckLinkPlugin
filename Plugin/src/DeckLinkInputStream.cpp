@@ -5,9 +5,7 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     : IDeckLinkInputCallback() {
 
   // Get input
-  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) == S_OK)
-    _input->SetCallback(this);
-  else
+  if (device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
     _input = nullptr;
 }
 
@@ -43,6 +41,9 @@ void DeckLinkInputStream::Start() {
   if (!_input)
     return;
 
+  // Set callback
+  _input->SetCallback(this);
+
   // Enable video input
   _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV,
                            bmdVideoInputEnableFormatDetection);
@@ -56,11 +57,14 @@ void DeckLinkInputStream::Stop() {
   if (!_input)
     return;
 
+  // Stop stream
+  _input->StopStreams();
+
   // Disable video input
   _input->DisableVideoInput();
 
-  // Stop stream
-  _input->StopStreams();
+  // Remove callback
+  _input->SetCallback(nullptr);
 }
 
 IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() { return _videoFrame; }

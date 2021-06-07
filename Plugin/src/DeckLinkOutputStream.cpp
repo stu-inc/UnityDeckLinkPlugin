@@ -5,9 +5,7 @@ DeckLinkOutputStream::DeckLinkOutputStream(IDeckLink *device)
     : IDeckLinkVideoOutputCallback() {
 
   // Get output
-  if (device->QueryInterface(IID_IDeckLinkOutput, (LPVOID *)&_output) == S_OK)
-    _output->SetScheduledFrameCompletionCallback(this);
-  else
+  if (device->QueryInterface(IID_IDeckLinkOutput, (LPVOID *)&_output) != S_OK)
     _output = nullptr;
 }
 
@@ -43,6 +41,9 @@ void DeckLinkOutputStream::Start() {
   if (!_output)
     return;
 
+  // Set callback
+  _output->SetScheduledFrameCompletionCallback(this);
+
   // Enable video output
   //_output->EnableVideoOutput(bmdModeHD1080p5994, bmdFormat8BitYUV,
   //                          bmdVideoOutputFlagDefault);
@@ -56,11 +57,14 @@ void DeckLinkOutputStream::Stop() {
   if (!_output)
     return;
 
+  // Stop stream
+  //_output->StopScheduledPlayback();
+
   // Disable video output
   _output->DisableVideoOutput();
 
-  // Stop stream
-  //_output->StopScheduledPlayback();
+  // Remove callback
+  _output->SetScheduledFrameCompletionCallback(nullptr);
 }
 
 HRESULT DeckLinkOutputStream::ScheduledFrameCompleted(
