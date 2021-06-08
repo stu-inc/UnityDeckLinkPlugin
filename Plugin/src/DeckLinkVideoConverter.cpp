@@ -60,13 +60,19 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
   srcFrame->GetBytes((void **)&srcBytes);
   dstFrame->GetBytes((void **)&dstBytes);
 
+  // Size check
+  if (srcWidth != dstWidth || srcHeight != dstHeight)
+    return E_FAIL;
+
+  // Same format
   if (srcFormat == dstFormat) {
     for (long i = 0; i < srcHeight; ++i) {
       auto p_src = srcBytes + srcRowBytes * i;
       auto p_dst = dstBytes + dstRowBytes * (dstHeight - (i + 1));
       memcpy(p_dst, p_src, srcRowBytes);
     }
+    return S_OK;
   }
 
-  return E_FAIL;
+  return E_NOTIMPL;
 }
