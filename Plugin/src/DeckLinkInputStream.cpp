@@ -1,7 +1,6 @@
 #include "DeckLinkInputStream.hpp"
+#include "DeckLinkVideoConverter.hpp"
 #include "DeckLinkVideoFrame.hpp"
-
-#include <string.h>
 
 DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     : IDeckLinkInputCallback(), _device(device) {
@@ -13,19 +12,16 @@ DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
   if (_device->QueryInterface(IID_IDeckLinkInput, (LPVOID *)&_input) != S_OK)
     _input = nullptr;
 
-    // Create video converter
-#if defined(WIN32)
-  CoCreateInstance(CLSID_CDeckLinkVideoConversion, NULL, CLSCTX_ALL,
-                   IID_IDeckLinkVideoConversion, (LPVOID *)&_videoConverter);
-#else
-  _videoConverter = CreateVideoConversionInstance();
-#endif
+  // Create video converter
+  _videoConverter = new DeckLinkVideoConverter;
 
+  // Create video frame
   _videoFrame = new DeckLinkVideoFrame(1920, 1080, bmdFormat8BitARGB);
 }
 
 DeckLinkInputStream::~DeckLinkInputStream() {
 
+  // Release video frame
   _videoFrame->Release();
 
   // Release video converter
@@ -110,13 +106,5 @@ HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
 
-  void *data;
-  videoFrame->GetBytes(&data);
-
-  void *bytes;
-  _videoFrame->GetBytes(&bytes);
-  memcpy(bytes, data, 1920 * 1080 * 4);
-
-  // return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
-  return S_OK;
+  return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
 }

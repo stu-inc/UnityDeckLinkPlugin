@@ -4,6 +4,7 @@
 #include <atomic>
 
 class DeckLinkVideoFrame;
+class DeckLinkVideoConverter;
 
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
@@ -35,5 +36,5 @@ private:
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
   DeckLinkVideoFrame *_videoFrame = nullptr;
-  IDeckLinkVideoConversion *_videoConverter = nullptr;
+  DeckLinkVideoConverter *_videoConverter = nullptr;
 };
