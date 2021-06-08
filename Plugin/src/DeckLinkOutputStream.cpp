@@ -30,7 +30,7 @@ ULONG DeckLinkOutputStream::AddRef() { return ++_counter; }
 
 ULONG DeckLinkOutputStream::Release() {
 
-  if (--_counter == 0) {
+  if (!--_counter) {
     delete this;
     return 0;
   }

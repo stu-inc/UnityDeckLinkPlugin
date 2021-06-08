@@ -33,7 +33,7 @@ protected:
       /* in */ IDeckLinkAudioInputPacket *audioPacket) override;
 
 private:
-  std::atomic<ULONG> _counter = 0;
+  std::atomic<ULONG> _counter = 1;
   std::mutex _mutex;
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;

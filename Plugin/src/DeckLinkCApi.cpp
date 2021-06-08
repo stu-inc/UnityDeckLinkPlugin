@@ -88,9 +88,7 @@ const char *DeckLink_GetDeviceDisplayName(void *device) {
 #endif
 
 void *DeckLink_CreateInputStream(void *device) {
-  auto stream = new DeckLinkInputStream((IDeckLink *)device);
-  stream->AddRef();
-  return stream;
+  return new DeckLinkInputStream((IDeckLink *)device);
 }
 
 void DeckLink_LockInputStream(void *stream) {
@@ -132,9 +130,7 @@ void *DeckLink_GetVideoFrameBytes(void *frame) {
 }
 
 void *DeckLink_CreateOutputStream(void *device) {
-  auto stream = new DeckLinkOutputStream((IDeckLink *)device);
-  stream->AddRef();
-  return stream;
+  return new DeckLinkOutputStream((IDeckLink *)device);
 }
 
 void DeckLink_LockOutputStream(void *stream) {

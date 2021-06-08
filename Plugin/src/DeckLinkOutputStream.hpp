@@ -28,7 +28,7 @@ protected:
   virtual HRESULT ScheduledPlaybackHasStopped(void) override;
 
 private:
-  std::atomic<ULONG> _counter = 0;
+  std::atomic<ULONG> _counter = 1;
   std::mutex _mutex;
   IDeckLink *_device = nullptr;
   IDeckLinkOutput *_output = nullptr;
