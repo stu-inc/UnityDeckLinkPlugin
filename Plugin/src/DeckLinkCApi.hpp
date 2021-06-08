@@ -64,6 +64,9 @@ int DeckLink_GetVideoFrameRowBytes(void *frame);
 // Get video frame bytes
 void *DeckLink_GetVideoFrameBytes(void *frame);
 
+// Get video frame pixel format
+int DeckLink_GetVideoFramePixelFormat(void *frame);
+
 // Create output stream
 void *DeckLink_CreateOutputStream(void *device);
 

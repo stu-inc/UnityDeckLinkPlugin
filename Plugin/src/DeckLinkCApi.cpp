@@ -121,6 +121,10 @@ void *DeckLink_GetVideoFrameBytes(void *frame) {
   return bytes;
 }
 
+int DeckLink_GetVideoFramePixelFormat(void *frame) {
+  return ((IDeckLinkVideoFrame *)frame)->GetPixelFormat();
+}
+
 void *DeckLink_CreateOutputStream(void *device) {
   return new DeckLinkOutputStream((IDeckLink *)device);
 }
