@@ -62,7 +62,7 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
 
   if (srcFormat == dstFormat) {
     for (long i = 0; i < srcHeight; ++i) {
-      auto p_src = srcBytes + srcRowBytes * (srcHeight - (i + 1));
+      auto p_src = srcBytes + srcRowBytes * i;
       auto p_dst = dstBytes + dstRowBytes * (dstHeight - (i + 1));
       memcpy(p_dst, p_src, srcRowBytes);
     }

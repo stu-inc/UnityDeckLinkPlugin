@@ -53,7 +53,7 @@ namespace DeckLinkPlugin
             if (_targetTexture)
             {
                 RenderTexture.active = _targetTexture;
-                Graphics.Blit(_texture, _targetTexture, new Vector2(1f, -1f), new Vector2(0, 0));
+                Graphics.Blit(_texture, _targetTexture);
             }
         }
     }
