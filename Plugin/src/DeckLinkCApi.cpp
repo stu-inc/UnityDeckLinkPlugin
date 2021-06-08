@@ -91,14 +91,6 @@ void *DeckLink_CreateInputStream(void *device) {
   return new DeckLinkInputStream((IDeckLink *)device);
 }
 
-void DeckLink_LockInputStream(void *stream) {
-  ((DeckLinkInputStream *)stream)->Lock();
-}
-
-void DeckLink_UnlockInputStream(void *stream) {
-  ((DeckLinkInputStream *)stream)->Unlock();
-}
-
 void DeckLink_StartInputStream(void *stream) {
   ((DeckLinkInputStream *)stream)->Start();
 }

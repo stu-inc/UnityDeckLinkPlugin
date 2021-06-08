@@ -2,7 +2,8 @@
 
 #include <DeckLinkAPI.h>
 #include <atomic>
-#include <mutex>
+
+class DeckLinkVideoFrame;
 
 class DeckLinkInputStream : public IDeckLinkInputCallback {
 public:
@@ -11,9 +12,6 @@ public:
   virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
   virtual ULONG AddRef() override;
   virtual ULONG Release() override;
-
-  void Lock();
-  void Unlock();
 
   void Start();
   void Stop();
@@ -34,9 +32,8 @@ protected:
 
 private:
   std::atomic<ULONG> _counter = 1;
-  std::mutex _mutex;
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
-  IDeckLinkVideoFrame *_videoFrame = nullptr;
+  DeckLinkVideoFrame *_videoFrame = nullptr;
   IDeckLinkVideoConversion *_videoConverter = nullptr;
 };

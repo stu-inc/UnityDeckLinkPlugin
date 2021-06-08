@@ -43,12 +43,6 @@ const char *DeckLink_GetDeviceDisplayName(void *device);
 // Create input stream
 void *DeckLink_CreateInputStream(void *device);
 
-// Lock input stream
-void DeckLink_LockInputStream(void *stream);
-
-// Unlock input stream
-void DeckLink_UnlockInputStream(void *stream);
-
 // Start input stream
 void DeckLink_StartInputStream(void *stream);
 

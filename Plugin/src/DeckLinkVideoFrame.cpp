@@ -51,8 +51,6 @@ void DeckLinkVideoFrame::Resize(long width, long height,
 
   _data.reserve(size);
   _data.resize(size);
-
-  std::fill(_data.begin(), _data.end(), 255);
 }
 
 HRESULT DeckLinkVideoFrame::GetBytes(void **buffer) {

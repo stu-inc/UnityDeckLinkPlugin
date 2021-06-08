@@ -10,7 +10,6 @@ namespace DeckLinkPlugin
         IntPtr _inputStream;
         Texture2D _texture;
         [SerializeField] RenderTexture _targetTexture;
-        [SerializeField] Material _targetMaterial;
 
         void OnEnable()
         {
@@ -30,8 +29,6 @@ namespace DeckLinkPlugin
         void Start()
         {
             _texture = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
-            if (_targetMaterial)
-                _targetMaterial.mainTexture = _texture;
         }
 
         void OnDisable()
@@ -56,8 +53,7 @@ namespace DeckLinkPlugin
             if (_targetTexture)
             {
                 RenderTexture.active = _targetTexture;
-                //_targetTexture.enableRandomWrite = true;
-                Graphics.Blit(_texture, _targetTexture);
+                Graphics.Blit(_texture, _targetTexture, new Vector2(1f, -1f), new Vector2(0, 0));
             }
         }
     }

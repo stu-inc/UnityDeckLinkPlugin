@@ -1,6 +1,8 @@
 #include "DeckLinkInputStream.hpp"
 #include "DeckLinkVideoFrame.hpp"
 
+#include <string.h>
+
 DeckLinkInputStream::DeckLinkInputStream(IDeckLink *device)
     : IDeckLinkInputCallback(), _device(device) {
 
@@ -53,10 +55,6 @@ ULONG DeckLinkInputStream::Release() {
   return _counter;
 }
 
-void DeckLinkInputStream::Lock() { _mutex.lock(); }
-
-void DeckLinkInputStream::Unlock() { _mutex.unlock(); }
-
 void DeckLinkInputStream::Start() {
 
   if (!_input)
@@ -66,7 +64,7 @@ void DeckLinkInputStream::Start() {
   _input->SetCallback(this);
 
   // Enable video input
-  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV,
+  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitARGB,
                            bmdVideoInputEnableFormatDetection);
 
   // Start stream
@@ -100,16 +98,25 @@ DeckLinkInputStream::VideoInputFormatChanged(
       notificationEvents & bmdVideoInputDisplayModeChanged) {
     _input->FlushStreams();
     _input->StopStreams();
-    _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitYUV,
+    _input->EnableVideoInput(newDisplayMode->GetDisplayMode(),
+                             bmdFormat8BitARGB,
                              bmdVideoInputEnableFormatDetection);
   }
 
-  return S_OK;
+  return _input->StartStreams();
 }
 
 HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
 
-  return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
+  void *data;
+  videoFrame->GetBytes(&data);
+
+  void *bytes;
+  _videoFrame->GetBytes(&bytes);
+  memcpy(bytes, data, 1920 * 1080 * 4);
+
+  // return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
+  return S_OK;
 }

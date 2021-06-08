@@ -62,14 +62,6 @@ namespace DeckLinkPlugin
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_CreateInputStream")]
         internal static extern IntPtr CreateInputStream(IntPtr device);
 
-        // Start lock stream
-        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_LockInputStream")]
-        internal static extern void LockInputStream(IntPtr stream);
-
-        // Start unlock stream
-        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_UnlockInputStream")]
-        internal static extern void UnlockInputStream(IntPtr stream);
-
         // Start input stream
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StartInputStream")]
         internal static extern void StartInputStream(IntPtr stream);
