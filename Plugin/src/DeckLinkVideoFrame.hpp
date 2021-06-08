@@ -15,11 +15,11 @@ public:
 
   void Resize(long width, long height, BMDPixelFormat format);
 
-  virtual long GetWidth(void) override { return _width; }
-  virtual long GetHeight(void) override { return _height; }
-  virtual long GetRowBytes(void) override { return _rowBytes; }
-  virtual BMDPixelFormat GetPixelFormat(void) override { return _pixelFormat; }
-  virtual BMDFrameFlags GetFlags(void) override { return bmdFrameFlagDefault; };
+  virtual long GetWidth() override { return _width; }
+  virtual long GetHeight() override { return _height; }
+  virtual long GetRowBytes() override { return _rowBytes; }
+  virtual BMDPixelFormat GetPixelFormat() override { return _pixelFormat; }
+  virtual BMDFrameFlags GetFlags() override { return bmdFrameFlagDefault; };
   virtual HRESULT GetBytes(/* out */ void **buffer) override;
   virtual HRESULT GetTimecode(/* in */ BMDTimecodeFormat format,
                               /* out */ IDeckLinkTimecode **timecode) override;
