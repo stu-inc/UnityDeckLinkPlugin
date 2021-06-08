@@ -14,7 +14,7 @@ namespace DeckLinkPlugin
         void OnEnable()
         {
             Debug.Log(DeckLinkCApi.GetVersionString());
-            IntPtr devices = new IntPtr();
+            IntPtr devices;
             Debug.Log(DeckLinkCApi.ListDevices(out devices));
             Debug.Log(devices);
             IntPtr device = DeckLinkCApi.GetDevice(devices, 0);
@@ -24,11 +24,8 @@ namespace DeckLinkPlugin
             _inputStream = DeckLinkCApi.CreateInputStream(device);
             Debug.Log(_inputStream);
             DeckLinkCApi.StartInputStream(_inputStream);
-        }
 
-        void Start()
-        {
-            _texture = new Texture2D(1920, 1080, TextureFormat.ARGB32, false);
+            _texture = new Texture2D(16, 16, TextureFormat.ARGB32, false);
         }
 
         void OnDisable()
@@ -39,17 +36,27 @@ namespace DeckLinkPlugin
 
         void Update()
         {
+            // Get current frame
             var videoFrame = DeckLinkCApi.GetInputStreamVideoFrame(_inputStream);
-            Debug.Log(DeckLinkCApi.GetVideoFrameWidth(videoFrame));
-            Debug.Log(DeckLinkCApi.GetVideoFrameHeight(videoFrame));
-            int rowBytes = DeckLinkCApi.GetVideoFrameRowBytes(videoFrame);
-            var texData = DeckLinkCApi.GetVideoFrameBytes(videoFrame);
-            Debug.Log(rowBytes);
-            Debug.Log(texData);
 
-            _texture.LoadRawTextureData(texData, 1920 * 1080 * 4);
+            if (videoFrame == IntPtr.Zero)
+                return;
+
+            // Get frame data
+            int width = DeckLinkCApi.GetVideoFrameWidth(videoFrame);
+            int height = DeckLinkCApi.GetVideoFrameHeight(videoFrame);
+            int rowBytes = DeckLinkCApi.GetVideoFrameRowBytes(videoFrame);
+            var bytes = DeckLinkCApi.GetVideoFrameBytes(videoFrame);
+
+            // Resize texture
+            if (_texture.width != width || _texture.height != height)
+                _texture.Resize(width, height, TextureFormat.ARGB32, false);
+
+            // Apply data
+            _texture.LoadRawTextureData(bytes, height * rowBytes);
             _texture.Apply();
 
+            // Copy to target render texture
             if (_targetTexture)
             {
                 RenderTexture.active = _targetTexture;
