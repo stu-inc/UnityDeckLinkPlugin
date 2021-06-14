@@ -52,6 +52,12 @@ void DeckLink_StopInputStream(void *stream);
 // Get input stream video frame
 void *DeckLink_GetInputStreamVideoFrame(void *stream);
 
+// Get input stream pixel format
+int DeckLink_GetInputStreamPixelFormat(void *stream);
+
+// Set input stream pixel format
+void DeckLink_SetInputStreamPixelFormat(void *stream, int pixelFormat);
+
 // Get video frame width
 int DeckLink_GetVideoFrameWidth(void *frame);
 

@@ -19,6 +19,9 @@ public:
 
   IDeckLinkVideoFrame *VideoFrame();
 
+  BMDPixelFormat GetPixelFormat() const;
+  void SetPixelFormat(BMDPixelFormat pixelFormat);
+
 protected:
   virtual ~DeckLinkInputStream();
 
@@ -35,6 +38,7 @@ private:
   std::atomic<ULONG> _counter = 1;
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
+  BMDPixelFormat _pixelFormat = bmdFormat8BitYUV;
   DeckLinkVideoFrame *_videoFrame = nullptr;
   DeckLinkVideoConverter *_videoConverter = nullptr;
 };

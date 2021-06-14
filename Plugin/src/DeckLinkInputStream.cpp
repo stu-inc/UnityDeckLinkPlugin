@@ -60,7 +60,7 @@ void DeckLinkInputStream::Start() {
   _input->SetCallback(this);
 
   // Enable video input
-  _input->EnableVideoInput(bmdModeHD1080p5994, bmdFormat8BitARGB,
+  _input->EnableVideoInput(bmdModeHD1080p5994, _pixelFormat,
                            bmdVideoInputEnableFormatDetection);
 
   // Start stream
@@ -84,6 +84,14 @@ void DeckLinkInputStream::Stop() {
 
 IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() { return _videoFrame; }
 
+BMDPixelFormat DeckLinkInputStream::GetPixelFormat() const {
+  return _pixelFormat;
+}
+
+void DeckLinkInputStream::SetPixelFormat(BMDPixelFormat pixelFormat) {
+  _pixelFormat = pixelFormat;
+}
+
 HRESULT
 DeckLinkInputStream::VideoInputFormatChanged(
     /* in */ BMDVideoInputFormatChangedEvents notificationEvents,
@@ -94,8 +102,7 @@ DeckLinkInputStream::VideoInputFormatChanged(
       notificationEvents & bmdVideoInputDisplayModeChanged) {
     _input->FlushStreams();
     _input->StopStreams();
-    _input->EnableVideoInput(newDisplayMode->GetDisplayMode(),
-                             bmdFormat8BitARGB,
+    _input->EnableVideoInput(newDisplayMode->GetDisplayMode(), _pixelFormat,
                              bmdVideoInputEnableFormatDetection);
   }
 
