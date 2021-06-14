@@ -69,7 +69,7 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
   if (srcFormat == dstFormat) {
     for (long i = 0; i < srcHeight; ++i) {
       auto p_src = srcBytes + srcRowBytes * i;
-      auto p_dst = dstBytes + dstRowBytes * (dstHeight - (i + 1));
+      auto p_dst = dstBytes + dstRowBytes * i;
       memcpy(p_dst, p_src, srcRowBytes);
     }
     return S_OK;
@@ -81,7 +81,7 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
     for (long i = 0; i < srcHeight; ++i) {
 
       auto p_src = srcBytes + srcRowBytes * i;
-      auto p_dst = dstBytes + dstRowBytes * (dstHeight - (i + 1));
+      auto p_dst = dstBytes + dstRowBytes * i;
 
       for (long j = 0; j < srcWidth / 2; ++j) {
 
