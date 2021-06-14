@@ -18,6 +18,8 @@ namespace DeckLinkPlugin
         [SerializeField] PixelFormat _pixelFormat = PixelFormat.ARGB32_8bit;
         [SerializeField] RenderTexture _targetTexture;
 
+        public Texture2D Texture { get { return _texture; } }
+
         void OnEnable()
         {
             Debug.Log(DeckLinkCApi.GetVersionString());
