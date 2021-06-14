@@ -1,4 +1,5 @@
 #include "DeckLinkVideoConverter.hpp"
+#include <algorithm>
 #include <string.h>
 
 DeckLinkVideoConverter::DeckLinkVideoConverter() : IDeckLinkVideoConversion() {
@@ -74,7 +75,7 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
     return S_OK;
   }
 
-  // YUV422 to RGBA
+  // YUV422 to ARGB with BT.601
   if (srcFormat == bmdFormat8BitYUV && dstFormat == bmdFormat8BitARGB) {
 
     for (long i = 0; i < srcHeight; ++i) {
@@ -86,18 +87,26 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
 
         auto y1 = *(p_src + 1) - 16;
         auto y2 = *(p_src + 3) - 16;
-        auto cr = *(p_src + 0) - 128;
-        auto cb = *(p_src + 2) - 128;
+        auto cr = *(p_src + 2) - 128;
+        auto cb = *(p_src + 0) - 128;
 
-        p_dst[2] = uint8_t(1.164 * y1 + 1.596 * cr);              // r
-        p_dst[1] = uint8_t(1.164 * y1 - 0.391 * cb - 0.813 * cr); // g
-        p_dst[0] = uint8_t(1.164 * y1 + 2.018 * cb);              // b
-        p_dst[3] = 255;                                           // a
+        int r1 = int(1.164383 * y1 + 1.596027 * cr);
+        int g1 = int(1.164383 * y1 - 0.391762 * cb - 0.812968 * cr);
+        int b1 = int(1.164383 * y1 + 2.017232 * cb);
 
-        p_dst[6] = uint8_t(1.164 * y2 + 1.596 * cr);              // r
-        p_dst[5] = uint8_t(1.164 * y2 - 0.391 * cb - 0.813 * cr); // g
-        p_dst[4] = uint8_t(1.164 * y2 + 2.018 * cb);              // b
-        p_dst[7] = 255;                                           // a
+        int r2 = int(1.164383 * y2 + 1.596027 * cr);
+        int g2 = int(1.164383 * y2 - 0.391762 * cb - 0.812968 * cr);
+        int b2 = int(1.164383 * y2 + 2.017232 * cb);
+
+        p_dst[1] = std::clamp(r1, 0, 255);
+        p_dst[2] = std::clamp(g1, 0, 255);
+        p_dst[3] = std::clamp(b1, 0, 255);
+        p_dst[0] = 255;
+
+        p_dst[5] = std::clamp(r2, 0, 255);
+        p_dst[6] = std::clamp(g2, 0, 255);
+        p_dst[7] = std::clamp(b2, 0, 255);
+        p_dst[4] = 255;
 
         p_src += 4;
         p_dst += 8;
