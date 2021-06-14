@@ -108,7 +108,7 @@ int DeckLink_GetInputStreamPixelFormat(void *stream) {
 }
 
 void DeckLink_SetInputStreamPixelFormat(void *stream, int pixelFormat) {
-  ((DeckLinkInputStream *)stream)->SetPixelFormat(pixelFormat);
+  ((DeckLinkInputStream *)stream)->SetPixelFormat(BMDPixelFormat(pixelFormat));
 }
 
 int DeckLink_GetVideoFrameWidth(void *frame) {
