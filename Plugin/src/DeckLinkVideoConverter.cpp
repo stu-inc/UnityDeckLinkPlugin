@@ -89,15 +89,15 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
         auto cr = *(p_src + 0) - 128;
         auto cb = *(p_src + 2) - 128;
 
-        p_dst[0] = 1.164 * y1 + 1.596 * cr;
-        p_dst[1] = 1.164 * y1 - 0.391 * cb - 0.813 * cr;
-        p_dst[2] = 1.164 * y1 + 2.018 * cb;
-        p_dst[3] = 255;
+        p_dst[2] = uint8_t(1.164 * y1 + 1.596 * cr);              // r
+        p_dst[1] = uint8_t(1.164 * y1 - 0.391 * cb - 0.813 * cr); // g
+        p_dst[0] = uint8_t(1.164 * y1 + 2.018 * cb);              // b
+        p_dst[3] = 255;                                           // a
 
-        p_dst[4] = 1.164 * y2 + 1.596 * cr;
-        p_dst[5] = 1.164 * y2 - 0.391 * cb - 0.813 * cr;
-        p_dst[6] = 1.164 * y2 + 2.018 * cb;
-        p_dst[7] = 255;
+        p_dst[6] = uint8_t(1.164 * y2 + 1.596 * cr);              // r
+        p_dst[5] = uint8_t(1.164 * y2 - 0.391 * cb - 0.813 * cr); // g
+        p_dst[4] = uint8_t(1.164 * y2 + 2.018 * cb);              // b
+        p_dst[7] = 255;                                           // a
 
         p_src += 4;
         p_dst += 8;
