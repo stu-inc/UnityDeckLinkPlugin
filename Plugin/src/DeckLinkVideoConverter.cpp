@@ -74,5 +74,38 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
     return S_OK;
   }
 
+  // YUV422 to RGBA
+  if (srcFormat == bmdFormat8BitYUV && dstFormat == bmdFormat8BitARGB) {
+
+    for (long i = 0; i < srcHeight; ++i) {
+
+      auto p_src = srcBytes + srcRowBytes * i;
+      auto p_dst = dstBytes + dstRowBytes * (dstHeight - (i + 1));
+
+      for (long j = 0; j < srcWidth / 2; ++j) {
+
+        auto y1 = *(p_src + 1) - 16;
+        auto y2 = *(p_src + 3) - 16;
+        auto cr = *(p_src + 0) - 128;
+        auto cb = *(p_src + 2) - 128;
+
+        p_dst[0] = 1.164 * y1 + 1.596 * cr;
+        p_dst[1] = 1.164 * y1 - 0.391 * cb - 0.813 * cr;
+        p_dst[2] = 1.164 * y1 + 2.018 * cb;
+        p_dst[3] = 255;
+
+        p_dst[4] = 1.164 * y2 + 1.596 * cr;
+        p_dst[5] = 1.164 * y2 - 0.391 * cb - 0.813 * cr;
+        p_dst[6] = 1.164 * y2 + 2.018 * cb;
+        p_dst[7] = 255;
+
+        p_src += 4;
+        p_dst += 8;
+      }
+    }
+
+    return S_OK;
+  }
+
   return E_NOTIMPL;
 }
