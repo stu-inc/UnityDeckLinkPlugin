@@ -100,7 +100,7 @@ void DeckLink_StopInputStream(void *stream) {
 }
 
 void *DeckLink_GetInputStreamVideoFrame(void *stream) {
-  return (void *)((DeckLinkInputStream *)stream)->VideoFrame();
+  return (void *)((DeckLinkInputStream *)stream)->GetVideoFrame();
 }
 
 int DeckLink_GetInputStreamPixelFormat(void *stream) {

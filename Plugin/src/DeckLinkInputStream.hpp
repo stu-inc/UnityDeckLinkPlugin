@@ -17,7 +17,7 @@ public:
   void Start();
   void Stop();
 
-  IDeckLinkVideoFrame *VideoFrame();
+  IDeckLinkVideoFrame *GetVideoFrame();
 
   BMDPixelFormat GetPixelFormat() const;
   void SetPixelFormat(BMDPixelFormat pixelFormat);

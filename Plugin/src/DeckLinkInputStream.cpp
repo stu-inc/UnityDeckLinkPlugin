@@ -82,7 +82,9 @@ void DeckLinkInputStream::Stop() {
   _input->SetCallback(nullptr);
 }
 
-IDeckLinkVideoFrame *DeckLinkInputStream::VideoFrame() { return _videoFrame; }
+IDeckLinkVideoFrame *DeckLinkInputStream::GetVideoFrame() {
+  return _videoFrame;
+}
 
 BMDPixelFormat DeckLinkInputStream::GetPixelFormat() const {
   return _pixelFormat;
