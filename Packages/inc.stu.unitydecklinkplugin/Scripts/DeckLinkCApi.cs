@@ -74,6 +74,14 @@ namespace DeckLinkPlugin
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamVideoFrame")]
         internal static extern IntPtr GetInputStreamVideoFrame(IntPtr stream);
 
+        // Get input stream pixel format
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamPixelFormat")]
+        internal static extern int GetInputStreamPixelFormat(IntPtr stream);
+
+        // Set input stream pixel format
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_SetInputStreamPixelFormat")]
+        internal static extern void SetInputStreamPixelFormat(IntPtr stream, int pixelFormat);
+
         // Get video frame width
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetVideoFrameWidth")]
         internal static extern int GetVideoFrameWidth(IntPtr frame);
