@@ -90,13 +90,13 @@ HRESULT DeckLinkVideoConverter::ConvertFrame(
         auto cr = *(p_src + 2) - 128;
         auto cb = *(p_src + 0) - 128;
 
-        int r1 = int(1.164383 * y1 + 1.596027 * cr);
-        int g1 = int(1.164383 * y1 - 0.391762 * cb - 0.812968 * cr);
-        int b1 = int(1.164383 * y1 + 2.017232 * cb);
+        int r1 = (298 * y1 + 409 * cr) >> 8;
+        int g1 = (298 * y1 - 100 * cb - 208 * cr) >> 8;
+        int b1 = (298 * y1 + 516 * cb) >> 8;
 
-        int r2 = int(1.164383 * y2 + 1.596027 * cr);
-        int g2 = int(1.164383 * y2 - 0.391762 * cb - 0.812968 * cr);
-        int b2 = int(1.164383 * y2 + 2.017232 * cb);
+        int r2 = (298 * y2 + 409 * cr) >> 8;
+        int g2 = (298 * y2 - 100 * cb - 208 * cr) >> 8;
+        int b2 = (298 * y2 + 516 * cb) >> 8;
 
         p_dst[1] = std::clamp(r1, 0, 255);
         p_dst[2] = std::clamp(g1, 0, 255);
