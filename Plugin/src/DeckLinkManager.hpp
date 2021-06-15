@@ -9,7 +9,7 @@ class DeckLinkManager {
 public:
   static DeckLinkManager *GetInstance();
 
-  std::vector<IDeckLink *> GetDevices() const;
+  const std::vector<IDeckLink *> *GetDevices() const;
 
 protected:
   std::vector<IDeckLink *> ListDevices() const;

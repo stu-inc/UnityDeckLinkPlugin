@@ -5,8 +5,8 @@ DeckLinkManager *DeckLinkManager::GetInstance() {
   return &instance;
 }
 
-std::vector<IDeckLink *> DeckLinkManager::GetDevices() const {
-  return _devices;
+const std::vector<IDeckLink *> *DeckLinkManager::GetDevices() const {
+  return &_devices;
 }
 
 std::vector<IDeckLink *> DeckLinkManager::ListDevices() const {
