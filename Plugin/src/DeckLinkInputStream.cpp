@@ -60,7 +60,7 @@ void DeckLinkInputStream::Start() {
   _input->SetCallback(this);
 
   // Enable video input
-  _input->EnableVideoInput(bmdModeHD1080p5994, _pixelFormat,
+  _input->EnableVideoInput(_displayMode, _pixelFormat,
                            bmdVideoInputEnableFormatDetection);
 
   // Start stream
@@ -104,13 +104,19 @@ DeckLinkInputStream::VideoInputFormatChanged(
 
   if (notificationEvents & bmdVideoInputColorspaceChanged ||
       notificationEvents & bmdVideoInputDisplayModeChanged) {
+
     _input->FlushStreams();
     _input->StopStreams();
-    _input->EnableVideoInput(newDisplayMode->GetDisplayMode(), _pixelFormat,
+
+    _displayMode = newDisplayMode->GetDisplayMode();
+
+    _input->EnableVideoInput(_displayMode, _pixelFormat,
                              bmdVideoInputEnableFormatDetection);
+
+    return _input->StartStreams();
   }
 
-  return _input->StartStreams();
+  return S_OK;
 }
 
 HRESULT DeckLinkInputStream::VideoInputFrameArrived(
@@ -121,7 +127,7 @@ HRESULT DeckLinkInputStream::VideoInputFrameArrived(
   BMDTimeScale frameTimescale;
 
   IDeckLinkDisplayMode *displayMode = nullptr;
-  _input->GetDisplayMode(bmdModeHD1080p5994, &displayMode);
+  _input->GetDisplayMode(_displayMode, &displayMode);
   displayMode->GetFrameRate(&frameDuration, &frameTimescale);
 
   _input->GetHardwareReferenceClock(frameTimescale, &_timeStamp, nullptr,

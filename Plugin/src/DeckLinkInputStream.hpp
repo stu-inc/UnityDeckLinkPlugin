@@ -41,6 +41,7 @@ private:
   IDeckLink *_device = nullptr;
   IDeckLinkInput *_input = nullptr;
   BMDPixelFormat _pixelFormat = bmdFormat8BitYUV;
+  BMDDisplayMode _displayMode = bmdModeHD1080p5994;
   DeckLinkVideoFrame *_videoFrame = nullptr;
   DeckLinkVideoConverter *_videoConverter = nullptr;
   BMDTimeValue _timeStamp = 0;

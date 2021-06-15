@@ -62,7 +62,6 @@ namespace DeckLinkPlugin
                 return;
 
             _frameTimeStamp = timeStamp;
-            Debug.Log(_frameTimeStamp);
 
             // Get current frame
             var videoFrame = DeckLinkCApi.GetInputStreamVideoFrame(_inputStream);
