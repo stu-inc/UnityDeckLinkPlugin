@@ -82,7 +82,9 @@ void DeckLinkInputStream::Stop() {
   _input->SetCallback(nullptr);
 }
 
-IDeckLinkVideoFrame *DeckLinkInputStream::GetVideoFrame() {
+BMDTimeValue DeckLinkInputStream::GetTimeStamp() const { return _timeStamp; }
+
+IDeckLinkVideoFrame *DeckLinkInputStream::GetVideoFrame() const {
   return _videoFrame;
 }
 
@@ -114,6 +116,16 @@ DeckLinkInputStream::VideoInputFormatChanged(
 HRESULT DeckLinkInputStream::VideoInputFrameArrived(
     /* in */ IDeckLinkVideoInputFrame *videoFrame,
     /* in */ IDeckLinkAudioInputPacket *audioPacket) {
+
+  BMDTimeValue frameDuration;
+  BMDTimeScale frameTimescale;
+
+  IDeckLinkDisplayMode *displayMode = nullptr;
+  _input->GetDisplayMode(bmdModeHD1080p5994, &displayMode);
+  displayMode->GetFrameRate(&frameDuration, &frameTimescale);
+
+  _input->GetHardwareReferenceClock(frameTimescale, &_timeStamp, nullptr,
+                                    nullptr);
 
   return _videoConverter->ConvertFrame(videoFrame, _videoFrame);
 }

@@ -26,9 +26,7 @@ int DeckLink_ListDevices(void **devices) {
   return int(_devices->size());
 }
 
-void *DeckLink_GetDevice(void **devices, int index) {
-  return devices[index];
-}
+void *DeckLink_GetDevice(void **devices, int index) { return devices[index]; }
 
 #if defined(WIN32)
 BSTR DeckLink_GetDeviceModelName(void *device) {
@@ -72,6 +70,10 @@ void DeckLink_StartInputStream(void *stream) {
 
 void DeckLink_StopInputStream(void *stream) {
   ((DeckLinkInputStream *)stream)->Stop();
+}
+
+long long int DeckLink_GetInputStreamTimeStamp(void *stream) {
+  return ((DeckLinkInputStream *)stream)->GetTimeStamp();
 }
 
 void *DeckLink_GetInputStreamVideoFrame(void *stream) {

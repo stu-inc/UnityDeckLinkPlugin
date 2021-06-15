@@ -15,6 +15,7 @@ namespace DeckLinkPlugin
 
         [SerializeField] private int _deviceIndex = 0;
         private IntPtr _inputStream;
+        private long _frameTimeStamp = 0;
         private Texture2D _texture;
         [SerializeField] PixelFormat _pixelFormat = PixelFormat.ARGB32_8bit;
         [SerializeField] RenderTexture _targetTexture;
@@ -53,6 +54,15 @@ namespace DeckLinkPlugin
         {
             if (_inputStream == IntPtr.Zero)
                 return;
+
+            // Get time stamp
+            var timeStamp = DeckLinkCApi.GetInputStreamTimeStamp(_inputStream);
+
+            if (timeStamp == _frameTimeStamp)
+                return;
+
+            _frameTimeStamp = timeStamp;
+            Debug.Log(_frameTimeStamp);
 
             // Get current frame
             var videoFrame = DeckLinkCApi.GetInputStreamVideoFrame(_inputStream);

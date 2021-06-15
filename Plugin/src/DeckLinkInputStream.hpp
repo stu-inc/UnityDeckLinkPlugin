@@ -17,7 +17,9 @@ public:
   void Start();
   void Stop();
 
-  IDeckLinkVideoFrame *GetVideoFrame();
+  BMDTimeValue GetTimeStamp() const;
+
+  IDeckLinkVideoFrame *GetVideoFrame() const;
 
   BMDPixelFormat GetPixelFormat() const;
   void SetPixelFormat(BMDPixelFormat pixelFormat);
@@ -41,4 +43,5 @@ private:
   BMDPixelFormat _pixelFormat = bmdFormat8BitYUV;
   DeckLinkVideoFrame *_videoFrame = nullptr;
   DeckLinkVideoConverter *_videoConverter = nullptr;
+  BMDTimeValue _timeStamp = 0;
 };

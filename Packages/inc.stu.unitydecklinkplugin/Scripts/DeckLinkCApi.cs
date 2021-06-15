@@ -84,6 +84,11 @@ namespace DeckLinkPlugin
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StopInputStream")]
         internal static extern void StopInputStream(IntPtr stream);
 
+        // Get input stream time stamp
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamTimeStamp")]
+        internal static extern long GetInputStreamTimeStamp(IntPtr stream);
+
+
         // Get input stream video frame
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamVideoFrame")]
         internal static extern IntPtr GetInputStreamVideoFrame(IntPtr stream);

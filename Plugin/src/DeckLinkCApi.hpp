@@ -49,6 +49,9 @@ void DeckLink_StartInputStream(void *stream);
 // Stop input stream
 void DeckLink_StopInputStream(void *stream);
 
+// Get input stream time stamp
+long long int DeckLink_GetInputStreamTimeStamp(void *stream);
+
 // Get input stream video frame
 void *DeckLink_GetInputStreamVideoFrame(void *stream);
 
