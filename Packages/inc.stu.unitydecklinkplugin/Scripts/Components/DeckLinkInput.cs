@@ -13,9 +13,9 @@ namespace DeckLinkPlugin
             ARGB32_8bit = 32
         }
 
-        private int _deviceIndex = 0;
-        IntPtr _inputStream;
-        Texture2D _texture;
+        [SerializeField] private int _deviceIndex = 0;
+        private IntPtr _inputStream;
+        private Texture2D _texture;
         [SerializeField] PixelFormat _pixelFormat = PixelFormat.ARGB32_8bit;
         [SerializeField] RenderTexture _targetTexture;
 
