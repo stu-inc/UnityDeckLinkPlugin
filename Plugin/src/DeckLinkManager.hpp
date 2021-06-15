@@ -9,13 +9,15 @@ class DeckLinkManager {
 public:
   static DeckLinkManager *GetInstance();
 
+  void Initialize();
+
   const std::vector<IDeckLink *> *GetDevices() const;
 
 protected:
   std::vector<IDeckLink *> ListDevices() const;
 
 private:
-  DeckLinkManager();
+  DeckLinkManager() = default;
   ~DeckLinkManager() = default;
   DeckLinkManager(const DeckLinkManager &) = delete;
   DeckLinkManager(const DeckLinkManager &&) = delete;

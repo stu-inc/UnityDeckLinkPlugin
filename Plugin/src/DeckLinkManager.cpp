@@ -2,7 +2,18 @@
 
 DeckLinkManager *DeckLinkManager::GetInstance() {
   static DeckLinkManager instance;
+  static bool initialize = false;
+  if (!initialize) {
+    instance.Initialize();
+    initialize = true;
+  }
   return &instance;
+}
+
+void DeckLinkManager::Initialize() {
+
+  // List devices
+  _devices = ListDevices();
 }
 
 const std::vector<IDeckLink *> *DeckLinkManager::GetDevices() const {
@@ -35,10 +46,4 @@ std::vector<IDeckLink *> DeckLinkManager::ListDevices() const {
   deckLinkIterator->Release();
 
   return devices;
-}
-
-DeckLinkManager::DeckLinkManager() {
-
-  // List devices
-  _devices = ListDevices();
 }

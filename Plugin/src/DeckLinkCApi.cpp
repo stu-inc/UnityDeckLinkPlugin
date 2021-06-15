@@ -5,8 +5,6 @@
 #include <DeckLinkAPI.h>
 #include <DeckLinkAPIVersion.h>
 
-static DeckLinkManager *DM = DeckLinkManager::GetInstance();
-
 int DeckLink_GetVersion() { return BLACKMAGIC_DECKLINK_API_VERSION; }
 
 const char *DeckLink_GetVersionString() {
@@ -20,7 +18,7 @@ void DeckLink_Release(void *obj) { ((IUnknown *)obj)->Release(); }
 int DeckLink_ListDevices(void **devices) {
 
   // Get devices
-  auto _devices = DM->GetDevices();
+  auto _devices = DeckLinkManager::GetInstance()->GetDevices();
 
   // Set devices
   *devices = _devices->size() > 0 ? (void *)_devices->data() : nullptr;
@@ -29,7 +27,7 @@ int DeckLink_ListDevices(void **devices) {
 }
 
 void *DeckLink_GetDevice(void **devices, int index) {
-  return ((IDeckLink **)devices)[index];
+  return devices[index];
 }
 
 #if defined(WIN32)
