@@ -1,12 +1,9 @@
 #include "DeckLinkCApi.hpp"
 #include "DeckLinkInputStream.hpp"
+#include "DeckLinkManager.hpp"
 #include "DeckLinkOutputStream.hpp"
 #include <DeckLinkAPI.h>
 #include <DeckLinkAPIVersion.h>
-
-// Global variables
-static int _numDevices = 0;
-static void *_devices[32] = {nullptr};
 
 int DeckLink_GetVersion() { return BLACKMAGIC_DECKLINK_API_VERSION; }
 
@@ -20,37 +17,13 @@ void DeckLink_Release(void *obj) { ((IUnknown *)obj)->Release(); }
 
 int DeckLink_ListDevices(void **devices) {
 
-  // Clear devices
-  _numDevices = 0;
-  *_devices = {nullptr};
-
-  // List devices
-  IDeckLinkIterator *deckLinkIterator = nullptr;
-
-#if defined(WIN32)
-  CoInitializeEx(NULL, COINIT_MULTITHREADED);
-  CoCreateInstance(CLSID_CDeckLinkIterator, NULL, CLSCTX_ALL,
-                   IID_IDeckLinkIterator, (void **)&deckLinkIterator);
-#else
-  deckLinkIterator = CreateDeckLinkIteratorInstance();
-#endif
-
-  if (!deckLinkIterator)
-    return 0;
-
-  IDeckLink *deckLink = nullptr;
-
-  while (deckLinkIterator->Next(&deckLink) == S_OK) {
-    _devices[_numDevices] = deckLink;
-    _numDevices++;
-  }
-
-  deckLinkIterator->Release();
+  // Get devices
+  auto _devices = DeckLinkManager::GetInstance()->GetDevices();
 
   // Set devices
-  *devices = _numDevices > 0 ? _devices : nullptr;
+  *devices = _devices.size() > 0 ? _devices.data() : nullptr;
 
-  return _numDevices;
+  return _devices.size();
 }
 
 void *DeckLink_GetDevice(void **devices, int index) { return devices[index]; }
