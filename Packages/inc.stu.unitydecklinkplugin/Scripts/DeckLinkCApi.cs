@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
@@ -56,6 +57,19 @@ namespace DeckLinkPlugin
                 return Marshal.PtrToStringBSTR(_GetDeviceDisplayName(device));
             else
                 return Marshal.PtrToStringAnsi(_GetDeviceDisplayName(device));
+        }
+
+        public static List<string> GetDeviceDisplayNames()
+        {
+            IntPtr devices;
+            int num = ListDevices(out devices);
+            var names = new List<string>();
+            for (int i = 0; i < num; ++i)
+            {
+                var device = GetDevice(devices, i);
+                names.Add(GetDeviceDisplayName(device));
+            }
+            return names;
         }
 
         // Create input stream
