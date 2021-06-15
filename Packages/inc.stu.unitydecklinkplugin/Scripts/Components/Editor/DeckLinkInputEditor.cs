@@ -16,10 +16,9 @@ namespace DeckLinkPlugin
         {
             var obj = target as DeckLinkInput;
 
-            DrawDefaultInspector();
+            obj.DeviceIndex = EditorGUILayout.Popup("Device", obj.DeviceIndex, DeckLinkCApi.GetDeviceDisplayNames().ToArray());
 
-            if (obj.Texture)
-                EditorGUI.DrawPreviewTexture(new Rect(25, 60, 100, 100), obj.Texture);
+            DrawDefaultInspector();
         }
     }
 #endif

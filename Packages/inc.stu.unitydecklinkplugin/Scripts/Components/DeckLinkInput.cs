@@ -13,23 +13,21 @@ namespace DeckLinkPlugin
             ARGB32_8bit = 32
         }
 
+        private int _deviceIndex = 0;
         IntPtr _inputStream;
         Texture2D _texture;
         [SerializeField] PixelFormat _pixelFormat = PixelFormat.ARGB32_8bit;
         [SerializeField] RenderTexture _targetTexture;
 
+        public int DeviceIndex { get { return _deviceIndex; } set { _deviceIndex = value; } }
+
         public Texture2D Texture { get { return _texture; } }
 
         void OnEnable()
         {
-            Debug.Log(DeckLinkCApi.GetVersionString());
             IntPtr devices;
             Debug.Log(DeckLinkCApi.ListDevices(out devices));
-            Debug.Log(devices);
-            IntPtr device = DeckLinkCApi.GetDevice(devices, 0);
-            Debug.Log(device);
-            Debug.Log(DeckLinkCApi.GetDeviceModelName(device));
-            Debug.Log(DeckLinkCApi.GetDeviceDisplayName(device));
+            IntPtr device = DeckLinkCApi.GetDevice(devices, _deviceIndex);
             _inputStream = DeckLinkCApi.CreateInputStream(device);
             Debug.Log(_inputStream);
             DeckLinkCApi.SetInputStreamPixelFormat(_inputStream, (int)_pixelFormat);
