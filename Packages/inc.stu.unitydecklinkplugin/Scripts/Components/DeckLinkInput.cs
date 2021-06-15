@@ -29,21 +29,31 @@ namespace DeckLinkPlugin
             Debug.Log(DeckLinkCApi.ListDevices(out devices));
             IntPtr device = DeckLinkCApi.GetDevice(devices, _deviceIndex);
             _inputStream = DeckLinkCApi.CreateInputStream(device);
-            Debug.Log(_inputStream);
-            DeckLinkCApi.SetInputStreamPixelFormat(_inputStream, (int)_pixelFormat);
-            DeckLinkCApi.StartInputStream(_inputStream);
+
+            if (_inputStream != IntPtr.Zero)
+            {
+                DeckLinkCApi.SetInputStreamPixelFormat(_inputStream, (int)_pixelFormat);
+                DeckLinkCApi.StartInputStream(_inputStream);
+            }
 
             _texture = new Texture2D(16, 16, TextureFormat.ARGB32, false);
         }
 
         void OnDisable()
         {
-            DeckLinkCApi.StopInputStream(_inputStream);
-            DeckLinkCApi.Release(_inputStream);
+            if (_inputStream != IntPtr.Zero)
+            {
+                DeckLinkCApi.StopInputStream(_inputStream);
+                DeckLinkCApi.Release(_inputStream);
+                _inputStream = IntPtr.Zero;
+            }
         }
 
         void Update()
         {
+            if (_inputStream == IntPtr.Zero)
+                return;
+
             // Get current frame
             var videoFrame = DeckLinkCApi.GetInputStreamVideoFrame(_inputStream);
 
