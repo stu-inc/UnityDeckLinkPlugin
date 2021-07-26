@@ -123,11 +123,11 @@ void DeckLink_StopOuputStream(void *stream) {
   ((DeckLinkOutputStream *)stream)->Stop();
 }
 
-void DeckLink_AddOutputStreamVideoFrame(void *stream, void *bytes, int width,
+void DeckLink_AddOutputStreamVideoFrame(void *stream, void *data, int width,
                                         int height, int pixelFormat) {
 
   // Copy video frame
-  auto videoFrame = new DeckLinkVideoFrame((uint8_t *)bytes, width, height,
+  auto videoFrame = new DeckLinkVideoFrame((uint8_t *)data, width, height,
                                            BMDPixelFormat(pixelFormat));
 
   // Add video frame

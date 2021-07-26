@@ -28,7 +28,6 @@ namespace DeckLinkPlugin
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_Release")]
         internal static extern void Release(IntPtr obj);
 
-
         // List devices
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_ListDevices")]
         internal static extern int ListDevices(out IntPtr devices);
@@ -88,7 +87,6 @@ namespace DeckLinkPlugin
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamTimeStamp")]
         internal static extern long GetInputStreamTimeStamp(IntPtr stream);
 
-
         // Get input stream video frame
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetInputStreamVideoFrame")]
         internal static extern IntPtr GetInputStreamVideoFrame(IntPtr stream);
@@ -120,5 +118,21 @@ namespace DeckLinkPlugin
         // Get video frame pixel format
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_GetVideoFramePixelFormat")]
         internal static extern int GetVideoFramePixelFormat(IntPtr frame);
+
+        // Create output stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_CreateOutputStream")]
+        internal static extern IntPtr CreateOutputStream(IntPtr device);
+
+        // Start output stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StartOutputStream")]
+        internal static extern void StartOutputStream(IntPtr stream);
+
+        // Stop input stream
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_StopOutputStream")]
+        internal static extern void StopOutputStream(IntPtr stream);
+
+        // Add output stream video frame
+        [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_AddOutputStreamVideoFrame")]
+        internal static extern void AddOutputStreamVideoFrame(IntPtr stream, IntPtr data, int width, int height, int pixelFormat);
     }
 }
