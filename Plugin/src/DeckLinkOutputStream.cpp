@@ -76,7 +76,7 @@ void DeckLinkOutputStream::Start() {
                              bmdVideoOutputFlagDefault);
 
   // Start stream
-  //_output->StartScheduledPlayback();
+  _output->StartScheduledPlayback(0, 1, 1);
 }
 
 void DeckLinkOutputStream::Stop() {
@@ -85,7 +85,7 @@ void DeckLinkOutputStream::Stop() {
     return;
 
   // Stop stream
-  //_output->StopScheduledPlayback();
+  _output->StopScheduledPlayback(0, nullptr, 1);
 
   // Disable video output
   _output->DisableVideoOutput();
