@@ -18,6 +18,9 @@ public:
   void Start();
   void Stop();
 
+  BMDDisplayMode GetDisplayMode() const;
+  void SetDisplayMode(BMDDisplayMode displayMode);
+
 protected:
   virtual ~DeckLinkOutputStream();
 
@@ -32,5 +35,7 @@ private:
   std::mutex _mutex;
   IDeckLink *_device = nullptr;
   IDeckLinkOutput *_output = nullptr;
+  BMDPixelFormat _pixelFormat = bmdFormat8BitYUV;
+  BMDDisplayMode _displayMode = bmdModeHD1080p5994;
   std::vector<IDeckLinkVideoFrame *> _videoFrames;
 };

@@ -61,7 +61,7 @@ void DeckLinkOutputStream::Start() {
     return;
 
   while (displayModeIterator->Next(&displayMode) == S_OK) {
-    if (displayMode->GetDisplayMode() == bmdModeHD1080p5994)
+    if (displayMode->GetDisplayMode() == _displayMode)
       break;
     displayMode = nullptr;
   }
@@ -92,6 +92,14 @@ void DeckLinkOutputStream::Stop() {
 
   // Remove callback
   _output->SetScheduledFrameCompletionCallback(nullptr);
+}
+
+BMDDisplayMode DeckLinkOutputStream::GetDisplayMode() const {
+  return _displayMode;
+}
+
+void DeckLinkOutputStream::SetDisplayMode(BMDDisplayMode displayMode) {
+  _displayMode = displayMode;
 }
 
 HRESULT DeckLinkOutputStream::ScheduledFrameCompleted(
