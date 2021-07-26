@@ -53,9 +53,27 @@ void DeckLinkOutputStream::Start() {
   // Set callback
   _output->SetScheduledFrameCompletionCallback(this);
 
+  // Get display mode
+  IDeckLinkDisplayModeIterator *displayModeIterator = nullptr;
+  IDeckLinkDisplayMode *displayMode = nullptr;
+
+  if (_output->GetDisplayModeIterator(&displayModeIterator) == S_OK)
+    return;
+
+  while (displayModeIterator->Next(&displayMode) == S_OK) {
+    if (displayMode->GetDisplayMode() == bmdModeHD1080p5994)
+      break;
+    displayMode = nullptr;
+  }
+
+  displayModeIterator->Release();
+
+  if (!displayMode)
+    return;
+
   // Enable video output
-  //_output->EnableVideoOutput(bmdModeHD1080p5994, bmdFormat8BitYUV,
-  //                          bmdVideoOutputFlagDefault);
+  _output->EnableVideoOutput(displayMode->GetDisplayMode(),
+                             bmdVideoOutputFlagDefault);
 
   // Start stream
   //_output->StartScheduledPlayback();
