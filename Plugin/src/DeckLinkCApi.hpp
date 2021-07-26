@@ -79,12 +79,6 @@ int DeckLink_GetVideoFramePixelFormat(void *frame);
 // Create output stream
 void *DeckLink_CreateOutputStream(void *device);
 
-// Lock output stream
-void DeckLink_LockOutputStream(void *stream);
-
-// Unlock output stream
-void DeckLink_UnlockOutputStream(void *stream);
-
 // Start output stream
 void DeckLink_StartOutputStream(void *stream);
 

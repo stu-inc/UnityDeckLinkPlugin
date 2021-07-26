@@ -38,10 +38,6 @@ ULONG DeckLinkOutputStream::Release() {
   return _counter;
 }
 
-void DeckLinkOutputStream::Lock() { _mutex.lock(); }
-
-void DeckLinkOutputStream::Unlock() { _mutex.unlock(); }
-
 void DeckLinkOutputStream::Start() {
 
   if (!_output)

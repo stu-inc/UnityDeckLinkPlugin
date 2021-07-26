@@ -12,9 +12,6 @@ public:
   virtual ULONG AddRef() override;
   virtual ULONG Release() override;
 
-  void Lock();
-  void Unlock();
-
   void Start();
   void Stop();
 
