@@ -1,4 +1,5 @@
 #include "DeckLinkVideoFrame.hpp"
+#include <string.h>
 
 static long pixelFormatToBytes(BMDPixelFormat format) {
 
@@ -17,6 +18,17 @@ DeckLinkVideoFrame::DeckLinkVideoFrame(long width, long height,
 
   // Resize
   Resize(width, height, format);
+}
+
+DeckLinkVideoFrame::DeckLinkVideoFrame(uint8_t *data, long width, long height,
+                                       BMDPixelFormat format)
+    : IDeckLinkVideoFrame() {
+
+  // Resize
+  Resize(width, height, format);
+
+  // Copy data
+  memcpy(_data.data(), data, _height * _rowBytes);
 }
 
 DeckLinkVideoFrame::~DeckLinkVideoFrame() {}

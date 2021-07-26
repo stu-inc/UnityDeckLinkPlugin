@@ -8,6 +8,8 @@
 class DeckLinkVideoFrame : public IDeckLinkVideoFrame {
 public:
   DeckLinkVideoFrame(long width, long height, BMDPixelFormat format);
+  DeckLinkVideoFrame(uint8_t *data, long width, long height,
+                     BMDPixelFormat format);
 
   virtual HRESULT QueryInterface(REFIID iid, LPVOID *ppv) override;
   virtual ULONG AddRef() override;
