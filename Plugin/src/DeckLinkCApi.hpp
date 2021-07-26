@@ -85,6 +85,10 @@ void DeckLink_StartOutputStream(void *stream);
 // Stop output stream
 void DeckLink_StopOutputStream(void *stream);
 
+// Add output stream video frame
+void DeckLink_AddOutputStreamVideoFrame(void *stream, int width, int height,
+                                        void *bytes, int pixelFormat);
+
 #ifdef __cplusplus
 }
 #endif

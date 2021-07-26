@@ -38,6 +38,13 @@ ULONG DeckLinkOutputStream::Release() {
   return _counter;
 }
 
+void DeckLinkOutputStream::AddVideoFrame(IDeckLinkVideoFrame *frame) {
+  _mutex.lock();
+  frame->AddRef();
+  _videoFrames.push_back(frame);
+  _mutex.unlock();
+}
+
 void DeckLinkOutputStream::Start() {
 
   if (!_output)
