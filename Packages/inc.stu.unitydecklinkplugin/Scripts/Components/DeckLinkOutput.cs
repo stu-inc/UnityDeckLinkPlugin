@@ -55,12 +55,10 @@ namespace DeckLinkPlugin
                 AsyncGPUReadback.Request(_targetTexture, 0, (request) =>
                 {
                     var data = request.GetData<byte>();
-                    DeckLinkPlugin.AddOutputStreamVideoFrame(_outputStream, data, 1920, 1080, 32);
+                    DeckLinkCApi.AddOutputStreamVideoFrame(_outputStream, data, 1920, 1080, 32);
                     Debug.Log(data.Length);
                 });
             }
-
-            yield return null;
         }
     }
 }

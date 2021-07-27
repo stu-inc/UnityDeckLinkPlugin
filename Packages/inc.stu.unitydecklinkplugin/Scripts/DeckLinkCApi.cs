@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace DeckLinkPlugin
 {
@@ -133,6 +135,11 @@ namespace DeckLinkPlugin
 
         // Add output stream video frame
         [DllImport("DeckLinkPlugin", EntryPoint = "DeckLink_AddOutputStreamVideoFrame")]
-        internal static extern void AddOutputStreamVideoFrame(IntPtr stream, IntPtr data, int width, int height, int pixelFormat);
+        internal static extern void _AddOutputStreamVideoFrame(IntPtr stream, IntPtr data, int width, int height, int pixelFormat);
+        public static unsafe void AddOutputStreamVideoFrame(IntPtr stream, NativeArray<byte> data, int width, int height, int pixelFormat)
+        {
+            var ptr = NativeArrayUnsafeUtility.GetUnsafeReadOnlyPtr(data);
+            _AddOutputStreamVideoFrame(stream, new IntPtr(ptr), width, height, pixelFormat);
+        }
     }
 }
