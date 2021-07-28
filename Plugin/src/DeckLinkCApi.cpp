@@ -119,7 +119,7 @@ void DeckLink_StartOutputStream(void *stream) {
   ((DeckLinkOutputStream *)stream)->Start();
 }
 
-void DeckLink_StopOuputStream(void *stream) {
+void DeckLink_StopOutputStream(void *stream) {
   ((DeckLinkOutputStream *)stream)->Stop();
 }
 
