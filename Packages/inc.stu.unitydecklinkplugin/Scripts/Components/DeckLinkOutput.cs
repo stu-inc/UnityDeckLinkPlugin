@@ -11,7 +11,8 @@ namespace DeckLinkPlugin
         enum PixelFormat
         {
             YUV422_8bit = 0x32767579,
-            ARGB32_8bit = 32
+            ARGB32_8bit = 32,
+            BGRA32_8bit = 0x42475241
         }
 
         [SerializeField] private int _deviceIndex = 0;
@@ -55,7 +56,7 @@ namespace DeckLinkPlugin
                 AsyncGPUReadback.Request(_targetTexture, 0, (request) =>
                 {
                     var data = request.GetData<byte>();
-                    DeckLinkCApi.AddOutputStreamVideoFrame(_outputStream, data, 1920, 1080, 32);
+                    DeckLinkCApi.AddOutputStreamVideoFrame(_outputStream, data, 1920, 1080, (int)PixelFormat.BGRA32_8bit);
                     Debug.Log(data.Length);
                 });
             }
